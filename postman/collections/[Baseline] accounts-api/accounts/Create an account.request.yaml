@@ -1,0 +1,37 @@
+type: http
+name: Create an account
+url: '{{baseUrl}}/accounts'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "string",
+      "type": "investment",
+      "currency": "string"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "id": "string",
+            "name": "string",
+            "type": "checking",
+            "balance": 3239.7965169425124,
+            "currency": "string",
+            "status": "suspended",
+            "createdAt": "1956-02-29T18:46:00.206Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Created

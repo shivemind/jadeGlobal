@@ -1,0 +1,4 @@
+type: folder
+name: '{accountId}'
+items:
+  - ref: ./Get an account by ID.request.yaml
