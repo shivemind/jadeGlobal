@@ -1,0 +1,35 @@
+type: http
+name: Get a payment by ID
+url: '{{baseUrl}}/payments/:paymentId'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: paymentId
+    value: string
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "id": "string",
+            "amount": 1926.8533705129998,
+            "currency": "string",
+            "status": "pending",
+            "createdAt": "2025-07-31T04:21:34.629Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: OK
+  - response:
+      statusCode: 404
+      statusText: Not Found
+      body:
+        type: text
+        content: ''
+    name: Not found

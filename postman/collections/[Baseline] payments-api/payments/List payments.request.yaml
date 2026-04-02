@@ -1,0 +1,34 @@
+type: http
+name: List payments
+url: '{{baseUrl}}/payments'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          [
+            {
+              "id": "string",
+              "amount": 4826.699563402916,
+              "currency": "string",
+              "status": "pending",
+              "createdAt": "1955-01-04T14:05:28.896Z"
+            },
+            {
+              "id": "string",
+              "amount": 4063.7919495353403,
+              "currency": "string",
+              "status": "completed",
+              "createdAt": "1979-10-01T14:17:35.054Z"
+            }
+          ]
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: OK
