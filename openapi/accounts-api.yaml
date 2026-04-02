@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Accounts API
+  version: 2.1.0
+  description: Core banking accounts service
+servers:
+  - url: https://stage-api.example.com/accounts
+    description: Stage
+  - url: https://api.example.com/accounts
+    description: Production
+paths:
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List accounts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Account"
+    post:
+      operationId: createAccount
+      summary: Create an account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+  /accounts/{accountId}:
+    get:
+      operationId: getAccount
+      summary: Get an account by ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "404":
+          description: Not found
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [checking, savings, investment]
+        balance:
+          type: number
+          format: double
+        currency:
+          type: string
+        status:
+          type: string
+          enum: [active, suspended, closed]
+        createdAt:
+          type: string
+          format: date-time
+    AccountRequest:
+      type: object
+      required: [name, type, currency]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [checking, savings, investment]
+        currency:
+          type: string

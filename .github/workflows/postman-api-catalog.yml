@@ -133,7 +133,6 @@ jobs:
           domain-code: ${{ matrix.domain_code }}
           requester-email: ${{ matrix.requester_email }}
           workspace-admin-user-ids: ${{ vars.POSTMAN_WORKSPACE_ADMIN_USER_IDS }}
-          spec-path: ${{ matrix.spec_path }}
           spec-url: ${{ matrix.spec_url }}
           workspace-id: ${{ matrix.workspace_id }}
           spec-id: ${{ matrix.spec_id }}
@@ -141,11 +140,8 @@ jobs:
           smoke-collection-id: ${{ matrix.smoke_collection_id }}
           contract-collection-id: ${{ matrix.contract_collection_id }}
           integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
-          org-mode: ${{ vars.POSTMAN_ORG_MODE || 'false' }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          gh-fallback-token: ${{ secrets.GH_FALLBACK_TOKEN }}
 
       - name: Lint OpenAPI spec
         shell: bash
