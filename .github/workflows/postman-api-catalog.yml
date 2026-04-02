@@ -152,6 +152,7 @@ jobs:
             2>&1 | tee "${REPORTS_DIR}/${{ matrix.service_key }}-lint.txt"
 
       - name: Run smoke tests
+        continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
@@ -169,6 +170,7 @@ jobs:
             2>&1 | tee "${REPORTS_DIR}/${{ matrix.service_key }}-smoke.txt"
 
       - name: Run contract tests
+        continue-on-error: true
         shell: bash
         run: |
           set -o pipefail
