@@ -31,7 +31,6 @@ permissions:
   actions: write
   checks: write
   pull-requests: write
-  variables: write
 
 env:
   MANIFEST_PATH: postman-services.json
