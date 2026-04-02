@@ -35,7 +35,7 @@ permissions:
 env:
   MANIFEST_PATH: postman-services.json
   REPORTS_DIR: reports
-  POSTMAN_INTEGRATION_BACKEND: bifrost
+  POSTMAN_INTEGRATION_BACKEND: api
 
 jobs:
   plan:
