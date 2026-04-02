@@ -1,0 +1,34 @@
+type: http
+name: Create a payment
+url: '{{baseUrl}}/payments'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "amount": 7805.563325360052,
+      "currency": "string"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "id": "string",
+            "amount": 1373.0463241615464,
+            "currency": "string",
+            "status": "failed",
+            "createdAt": "2002-06-02T09:11:41.374Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Created
