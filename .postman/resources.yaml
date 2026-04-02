@@ -1,0 +1,21 @@
+workspace:
+  id: 50a5d185-760b-4f5d-9293-6c28efe83775
+localResources:
+  collections:
+    - ../postman/collections/[Baseline] payments-api
+    - ../postman/collections/[Smoke] payments-api
+    - ../postman/collections/[Contract] payments-api
+  environments:
+    - ../postman/environments/prod.postman_environment.json
+    - ../postman/environments/stage.postman_environment.json
+  specs:
+    - ../openapi/accounts-api.yaml
+    - ../openapi/payments-api.yaml
+cloudResources:
+  collections:
+    ../postman/collections/[Baseline] payments-api: 53720583-6da5688d-e15a-4faf-be75-961fd77792f9
+    ../postman/collections/[Smoke] payments-api: 53720583-0c4edbfe-ba3e-4aa3-ab41-2c6c98fe886f
+    ../postman/collections/[Contract] payments-api: 53720583-9f312037-31e2-4859-ae9a-312837ebf726
+  environments:
+    ../postman/environments/prod.postman_environment.json: 53720583-777e6639-bba3-445e-95df-594d38ff1bd9
+    ../postman/environments/stage.postman_environment.json: 53720583-6ff4ead6-1e95-4446-9c67-bac294c16208
