@@ -9,11 +9,11 @@
       "version": "1.4.2",
       "spec_path": "openapi/payments-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/payments-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "33b23eb9-8270-493e-8eae-5099c7c25b51",
+      "spec_id": "b2609ab2-574e-46cd-98ac-45060ed0660c",
+      "baseline_collection_id": "53720583-3bca76ee-017d-4db1-b0a2-c2b05582177a",
+      "smoke_collection_id": "53720583-d6ed5f3f-fcd8-4c07-b94d-28e178cf5481",
+      "contract_collection_id": "53720583-2f99ba44-fb4a-45ef-b763-ce0aa4752adf",
       "environments": [
         "prod",
         "stage"
@@ -35,11 +35,11 @@
       "version": "2.1.0",
       "spec_path": "openapi/accounts-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/accounts-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "ca3ff7a4-4f7f-4d5c-9b1d-a532f24acf6e",
+      "spec_id": "3a0e249e-9f75-4091-a505-2fcf202354d4",
+      "baseline_collection_id": "53720583-93b32238-c7fb-4441-a86d-c722db6891e3",
+      "smoke_collection_id": "53720583-a8ed7dfb-32e8-468a-a13f-0f0764dab602",
+      "contract_collection_id": "53720583-4d37e86d-8897-411b-85fa-70320bcd9d27",
       "environments": [
         "prod",
         "stage"
