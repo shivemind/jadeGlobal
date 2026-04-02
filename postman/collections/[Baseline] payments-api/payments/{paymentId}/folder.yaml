@@ -1,4 +1,0 @@
-type: folder
-name: '{paymentId}'
-items:
-  - ref: ./Get a payment by ID.request.yaml
