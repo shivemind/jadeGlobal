@@ -148,7 +148,6 @@ jobs:
           set -o pipefail
           postman spec lint "${{ matrix.spec_path }}" \
             --fail-severity ERROR \
-            --workspace-id "${{ steps.bootstrap.outputs.workspace-id }}" \
             --output JSON \
             2>&1 | tee "${REPORTS_DIR}/${{ matrix.service_key }}-lint.txt"
 
