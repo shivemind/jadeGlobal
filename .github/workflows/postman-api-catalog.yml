@@ -141,7 +141,6 @@ jobs:
           contract-collection-id: ${{ matrix.contract_collection_id }}
           integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
-          postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
 
       - name: Lint OpenAPI spec
         shell: bash
