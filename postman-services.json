@@ -1,0 +1,56 @@
+{
+  "services": [
+    {
+      "service_key": "payments-api",
+      "service_name": "Payments API",
+      "domain": "core-banking",
+      "domain_code": "AF",
+      "requester_email": "owner@example.com",
+      "version": "1.4.2",
+      "spec_path": "openapi/payments-api.yaml",
+      "spec_url": "",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": [
+        "prod",
+        "stage"
+      ],
+      "runtime_urls": {
+        "prod": "https://api.example.com/payments",
+        "stage": "https://stage-api.example.com/payments"
+      },
+      "smoke_base_url": "https://stage-api.example.com/payments",
+      "enable_insights": true,
+      "cluster_name": "payments-cluster"
+    },
+    {
+      "service_key": "accounts-api",
+      "service_name": "Accounts API",
+      "domain": "core-banking",
+      "domain_code": "AF",
+      "requester_email": "owner@example.com",
+      "version": "2.1.0",
+      "spec_path": "openapi/accounts-api.yaml",
+      "spec_url": "",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": [
+        "prod",
+        "stage"
+      ],
+      "runtime_urls": {
+        "prod": "https://api.example.com/accounts",
+        "stage": "https://stage-api.example.com/accounts"
+      },
+      "smoke_base_url": "https://stage-api.example.com/accounts",
+      "enable_insights": false,
+      "cluster_name": ""
+    }
+  ]
+}
