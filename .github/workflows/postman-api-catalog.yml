@@ -133,7 +133,6 @@ jobs:
           domain-code: ${{ matrix.domain_code }}
           requester-email: ${{ matrix.requester_email }}
           workspace-admin-user-ids: ${{ vars.POSTMAN_WORKSPACE_ADMIN_USER_IDS }}
-          workspace-team-id: ${{ vars.POSTMAN_WORKSPACE_TEAM_ID }}
           spec-url: ${{ matrix.spec_url }}
           workspace-id: ${{ matrix.workspace_id }}
           spec-id: ${{ matrix.spec_id }}
