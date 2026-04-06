@@ -284,6 +284,7 @@ jobs:
       - name: Insights onboarding
         id: insights
         if: ${{ matrix.enable_insights }}
+        continue-on-error: true
         uses: postman-cs/postman-insights-onboarding-action@v0
         env:
           INPUT_PROJECT_NAME: ${{ matrix.service_key }}
@@ -351,7 +352,7 @@ jobs:
 
   persist_ids:
     needs: [plan, spechub_pipeline]
-    if: needs.plan.outputs.has_changes == 'true' && github.ref == 'refs/heads/main'
+    if: always() && needs.plan.outputs.has_changes == 'true' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -406,7 +407,7 @@ jobs:
 
   validate_dependency_graph:
     needs: [plan, spechub_pipeline]
-    if: needs.plan.outputs.has_changes == 'true'
+    if: always() && needs.plan.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
