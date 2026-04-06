@@ -196,6 +196,7 @@ jobs:
 
       - name: Repo sync and publish Spec Hub-backed assets to API catalog
         id: repo_sync
+        continue-on-error: true
         uses: postman-cs/postman-repo-sync-action@v0
         with:
           project-name: ${{ matrix.service_key }}
@@ -211,8 +212,20 @@ jobs:
           integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          postman-team-id: "14738775"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           gh-fallback-token: ${{ secrets.GH_FALLBACK_TOKEN }}
+
+      - name: Resolve environment UIDs from repo sync
+        id: resolve_env
+        if: ${{ matrix.enable_insights }}
+        shell: bash
+        run: |
+          raw='${{ steps.repo_sync.outputs.environment-uids-json }}'
+          if [[ -n "${raw}" && "${raw}" != "null" ]]; then
+            prod_id=$(echo "${raw}" | jq -r '.prod // empty')
+          fi
+          echo "prod_env_id=${prod_id:-}" >> "${GITHUB_OUTPUT}"
 
       - name: Provision system environment for Insights
         id: provision_system_env
@@ -225,7 +238,7 @@ jobs:
           set -euo pipefail
 
           workspace_id="${{ steps.bootstrap.outputs.workspace-id }}"
-          prod_env_id="${{ fromJSON(steps.repo_sync.outputs.environment-uids-json).prod }}"
+          prod_env_id="${{ steps.resolve_env.outputs.prod_env_id }}"
           manifest_system_env="$(jq -r '.system_env // empty' "${MANIFEST_PATH}")"
 
           if [[ -n "${manifest_system_env}" ]]; then
@@ -266,14 +279,27 @@ jobs:
         id: insights
         if: ${{ matrix.enable_insights }}
         uses: postman-cs/postman-insights-onboarding-action@v0
+        env:
+          INPUT_PROJECT_NAME: ${{ matrix.service_key }}
+          INPUT_WORKSPACE_ID: ${{ steps.bootstrap.outputs.workspace-id }}
+          INPUT_ENVIRONMENT_ID: ${{ steps.resolve_env.outputs.prod_env_id }}
+          INPUT_CLUSTER_NAME: ${{ matrix.cluster_name }}
+          INPUT_SYSTEM_ENVIRONMENT_ID: ${{ steps.provision_system_env.outputs.system_env_id }}
+          INPUT_POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          INPUT_POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_POSTMAN_TEAM_ID: "14738775"
+          INPUT_POLL_TIMEOUT_SECONDS: "120"
+          INPUT_POLL_INTERVAL_SECONDS: "10"
         with:
           project-name: ${{ matrix.service_key }}
           workspace-id: ${{ steps.bootstrap.outputs.workspace-id }}
-          environment-id: ${{ fromJSON(steps.repo_sync.outputs.environment-uids-json).prod }}
+          environment-id: ${{ steps.resolve_env.outputs.prod_env_id }}
           cluster-name: ${{ matrix.cluster_name }}
           system-environment-id: ${{ steps.provision_system_env.outputs.system_env_id }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          postman-team-id: "14738775"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Postman reports
@@ -315,8 +341,7 @@ jobs:
             sys_env="${{ steps.insights.outputs.system-env-id || steps.insights.outputs.system_env || '' }}"
           fi
           echo "system_env_id=${sys_env}" >> "${GITHUB_OUTPUT}"
-          echo "prod_env_id=${{ fromJSON(steps.repo_sync.outputs.environment-uids-json).prod }}" >> "${GITHUB_OUTPUT}"
-          echo "stage_env_id=${{ fromJSON(steps.repo_sync.outputs.environment-uids-json).stage }}" >> "${GITHUB_OUTPUT}"
+          echo "prod_env_id=${{ steps.resolve_env.outputs.prod_env_id }}" >> "${GITHUB_OUTPUT}"
 
   persist_ids:
     needs: [plan, spechub_pipeline]
