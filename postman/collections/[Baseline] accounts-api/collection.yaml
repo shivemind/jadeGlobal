@@ -1,10 +1,10 @@
 $schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
 type: collection
-name: '[Baseline] accounts-api'
-description: Core banking accounts service
-id: 20045b16-cda8-47bf-8f12-f9094c19e9c6
+name: '[Baseline] payments-api'
+description: Core banking payments service
+id: 6da5688d-e15a-4faf-be75-961fd77792f9
 variables:
   - key: baseUrl
-    value: https://stage-api.example.com/accounts
+    value: https://stage-api.example.com/payments
 items:
-  - ref: ./accounts/folder.yaml
+  - ref: ./payments/folder.yaml
