@@ -109,6 +109,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     outputs:
       system_env: ${{ steps.provision_system_env.outputs.system_env_id }}
@@ -212,7 +213,7 @@ jobs:
           integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          postman-team-id: "14738775"
+          org-mode: "true"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           gh-fallback-token: ${{ secrets.GH_FALLBACK_TOKEN }}
 
