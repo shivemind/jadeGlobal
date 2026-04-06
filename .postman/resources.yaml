@@ -1,14 +1,10 @@
+workspace:
+  id: 9398de6d-7c25-4945-a52c-fee90d56f8ff
 localResources:
   collections:
     - ../postman/collections/[Baseline] oracle-order-orchestration-api
     - ../postman/collections/[Smoke] oracle-order-orchestration-api
     - ../postman/collections/[Contract] oracle-order-orchestration-api
-    - ../postman/collections/[Baseline] accounts-api
-    - ../postman/collections/[Smoke] accounts-api
-    - ../postman/collections/[Contract] accounts-api
-    - ../postman/collections/[Baseline] payments-api
-    - ../postman/collections/[Smoke] payments-api
-    - ../postman/collections/[Contract] payments-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
