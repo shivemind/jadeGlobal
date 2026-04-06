@@ -76,7 +76,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/payments",
         "stage": "https://stage-api.example.com/payments"
@@ -86,7 +89,13 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5001,
       "k8s_dns_name": "payments-api.jade-global.svc.cluster.local",
-      "dependencies": ["accounts-api"]
+      "dependencies": [
+        "accounts-api"
+      ],
+      "environment_uids": {
+        "prod": "53720583-0de6e00e-de21-46ec-ae34-694b6178d90d",
+        "stage": "53720583-236589cf-f2e6-45b9-80a2-dd73c70a23ef"
+      }
     },
     {
       "service_key": "accounts-api",
@@ -102,7 +111,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/accounts",
         "stage": "https://stage-api.example.com/accounts"
@@ -112,7 +124,11 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5002,
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
-      "dependencies": []
+      "dependencies": [],
+      "environment_uids": {
+        "prod": "53720583-1937940d-9ddd-450c-9920-2e3a40edcada",
+        "stage": "53720583-2b693100-179c-49bd-a2cb-23a5419445bd"
+      }
     },
     {
       "service_key": "oracle-order-orchestration-api",
@@ -128,7 +144,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/oracle-orders",
         "stage": "https://stage-api.example.com/oracle-orders"
@@ -138,7 +157,14 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5003,
       "k8s_dns_name": "oracle-order-orchestration-api.jade-global.svc.cluster.local",
-      "dependencies": ["payments-api", "accounts-api"]
+      "dependencies": [
+        "payments-api",
+        "accounts-api"
+      ],
+      "environment_uids": {
+        "prod": "53720583-f4e2884a-871d-4d0a-b4ce-b893651d23d4",
+        "stage": "53720583-d31d7409-4633-4971-b31c-075c30821b85"
+      }
     },
     {
       "service_key": "salesforce-revenue-onboarding-api",
@@ -154,7 +180,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/revenue-onboarding",
         "stage": "https://stage-api.example.com/revenue-onboarding"
@@ -164,7 +193,14 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5004,
       "k8s_dns_name": "salesforce-revenue-onboarding-api.jade-global.svc.cluster.local",
-      "dependencies": ["oracle-order-orchestration-api", "workday-workforce-provisioning-api"]
+      "dependencies": [
+        "oracle-order-orchestration-api",
+        "workday-workforce-provisioning-api"
+      ],
+      "environment_uids": {
+        "prod": "53720583-0f3907a6-90b1-450b-9a1e-dd452000f1bc",
+        "stage": "53720583-d195d7de-2a4c-4420-9aa4-67a855bbefa3"
+      }
     },
     {
       "service_key": "workday-workforce-provisioning-api",
@@ -180,7 +216,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/workforce",
         "stage": "https://stage-api.example.com/workforce"
@@ -190,7 +229,13 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5005,
       "k8s_dns_name": "workday-workforce-provisioning-api.jade-global.svc.cluster.local",
-      "dependencies": ["salesforce-revenue-onboarding-api"]
+      "dependencies": [
+        "salesforce-revenue-onboarding-api"
+      ],
+      "environment_uids": {
+        "prod": "53720583-ec294bea-d2bc-427c-bfcf-32a5d53ff6de",
+        "stage": "53720583-74f9dad0-04cc-495c-b06e-4b8474f5cc0f"
+      }
     },
     {
       "service_key": "qa-automation-control-plane-api",
@@ -206,7 +251,10 @@
       "baseline_collection_id": "",
       "smoke_collection_id": "",
       "contract_collection_id": "",
-      "environments": ["prod", "stage"],
+      "environments": [
+        "prod",
+        "stage"
+      ],
       "runtime_urls": {
         "prod": "https://api.example.com/qa-control",
         "stage": "https://stage-api.example.com/qa-control"
@@ -216,7 +264,17 @@
       "cluster_name": "jade-global-cluster",
       "k8s_port": 5006,
       "k8s_dns_name": "qa-automation-control-plane-api.jade-global.svc.cluster.local",
-      "dependencies": ["oracle-order-orchestration-api", "salesforce-revenue-onboarding-api", "workday-workforce-provisioning-api", "payments-api", "accounts-api"]
+      "dependencies": [
+        "oracle-order-orchestration-api",
+        "salesforce-revenue-onboarding-api",
+        "workday-workforce-provisioning-api",
+        "payments-api",
+        "accounts-api"
+      ],
+      "environment_uids": {
+        "prod": "53720583-db466d2f-6fd1-4160-aa01-d9208235c49c",
+        "stage": "53720583-fa7833ec-823c-4505-afc9-0f17a752476d"
+      }
     }
   ]
 }

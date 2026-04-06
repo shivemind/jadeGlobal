@@ -1,0 +1,68 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traffic-generator
+  namespace: jade-global
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: traffic-generator
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: traffic-gen
+        image: curlimages/curl:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "=== Generating traced traffic across all dependency edges ==="
+          for i in $(seq 1 20); do
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+
+            echo "--- Round $i  trace=$TRACE_ID ---"
+
+            # QA control plane calls ALL services (biggest fan-out)
+            curl -s -H "traceparent: $TP" http://qa-automation-control-plane-api.jade-global.svc.cluster.local/test-suites > /dev/null
+            sleep 0.5
+
+            # Salesforce calls oracle + workday
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+            curl -s -H "traceparent: $TP" http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/close-won > /dev/null
+            sleep 0.5
+
+            # Oracle calls payments + accounts
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+            curl -s -H "traceparent: $TP" http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders > /dev/null
+            sleep 0.5
+
+            # Payments calls accounts
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+            curl -s -H "traceparent: $TP" http://payments-api.jade-global.svc.cluster.local/payments > /dev/null
+            sleep 0.5
+
+            # Workday calls salesforce
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+            curl -s -H "traceparent: $TP" http://workday-workforce-provisioning-api.jade-global.svc.cluster.local/access-requests > /dev/null
+            sleep 0.5
+
+            # Direct calls to accounts (leaf)
+            TRACE_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+            SPAN_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+            TP="00-${TRACE_ID}-${SPAN_ID}-01"
+            curl -s -H "traceparent: $TP" http://accounts-api.jade-global.svc.cluster.local/accounts > /dev/null
+            sleep 0.3
+          done
+          echo "=== Traffic generation complete: 20 rounds, all edges covered ==="

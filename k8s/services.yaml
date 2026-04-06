@@ -1,0 +1,271 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jade-global
+---
+# ─── accounts-api (leaf service, no downstream) ───
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounts-api
+  namespace: jade-global
+  labels:
+    app: accounts-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounts-api
+  template:
+    metadata:
+      labels:
+        app: accounts-api
+    spec:
+      containers:
+      - name: accounts-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: accounts-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts-api
+  namespace: jade-global
+spec:
+  selector:
+    app: accounts-api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# ─── payments-api → accounts-api ───
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-api
+  namespace: jade-global
+  labels:
+    app: payments-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-api
+  template:
+    metadata:
+      labels:
+        app: payments-api
+    spec:
+      containers:
+      - name: payments-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: payments-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: "http://accounts-api.jade-global.svc.cluster.local/accounts"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-api
+  namespace: jade-global
+spec:
+  selector:
+    app: payments-api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# ─── oracle-order-orchestration-api → payments-api, accounts-api ───
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oracle-order-orchestration-api
+  namespace: jade-global
+  labels:
+    app: oracle-order-orchestration-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oracle-order-orchestration-api
+  template:
+    metadata:
+      labels:
+        app: oracle-order-orchestration-api
+    spec:
+      containers:
+      - name: oracle-order-orchestration-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: oracle-order-orchestration-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: "http://payments-api.jade-global.svc.cluster.local/payments,http://accounts-api.jade-global.svc.cluster.local/accounts"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oracle-order-orchestration-api
+  namespace: jade-global
+spec:
+  selector:
+    app: oracle-order-orchestration-api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# ─── workday-workforce-provisioning-api → salesforce-revenue-onboarding-api ───
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workday-workforce-provisioning-api
+  namespace: jade-global
+  labels:
+    app: workday-workforce-provisioning-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workday-workforce-provisioning-api
+  template:
+    metadata:
+      labels:
+        app: workday-workforce-provisioning-api
+    spec:
+      containers:
+      - name: workday-workforce-provisioning-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: workday-workforce-provisioning-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: "http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/leads"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workday-workforce-provisioning-api
+  namespace: jade-global
+spec:
+  selector:
+    app: workday-workforce-provisioning-api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# ─── salesforce-revenue-onboarding-api → oracle, workday ───
+# Note: workday also calls salesforce (bidirectional). To avoid infinite
+# loops, salesforce only calls oracle and workday on the /close-won path,
+# and workday only calls salesforce on the /access-requests path.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesforce-revenue-onboarding-api
+  namespace: jade-global
+  labels:
+    app: salesforce-revenue-onboarding-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: salesforce-revenue-onboarding-api
+  template:
+    metadata:
+      labels:
+        app: salesforce-revenue-onboarding-api
+    spec:
+      containers:
+      - name: salesforce-revenue-onboarding-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: salesforce-revenue-onboarding-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: "http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders,http://workday-workforce-provisioning-api.jade-global.svc.cluster.local/workers"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesforce-revenue-onboarding-api
+  namespace: jade-global
+spec:
+  selector:
+    app: salesforce-revenue-onboarding-api
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# ─── qa-automation-control-plane-api → all other services ───
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qa-automation-control-plane-api
+  namespace: jade-global
+  labels:
+    app: qa-automation-control-plane-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qa-automation-control-plane-api
+  template:
+    metadata:
+      labels:
+        app: qa-automation-control-plane-api
+    spec:
+      containers:
+      - name: qa-automation-control-plane-api
+        image: jade-mock-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE_NAME
+          value: qa-automation-control-plane-api
+        - name: PORT
+          value: "8080"
+        - name: DOWNSTREAM_URLS
+          value: "http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders,http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/leads,http://workday-workforce-provisioning-api.jade-global.svc.cluster.local/workers,http://payments-api.jade-global.svc.cluster.local/payments,http://accounts-api.jade-global.svc.cluster.local/accounts"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qa-automation-control-plane-api
+  namespace: jade-global
+spec:
+  selector:
+    app: qa-automation-control-plane-api
+  ports:
+  - port: 80
+    targetPort: 8080

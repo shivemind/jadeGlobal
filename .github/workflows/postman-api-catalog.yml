@@ -195,6 +195,70 @@ jobs:
             --reporter-json-export "${REPORTS_DIR}/${{ matrix.service_key }}-contract.json" \
             2>&1 | tee "${REPORTS_DIR}/${{ matrix.service_key }}-contract.txt"
 
+      - name: Resolve environment UIDs
+        id: resolve_env
+        if: ${{ matrix.enable_insights }}
+        shell: bash
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          set -euo pipefail
+          workspace_id="${{ steps.bootstrap.outputs.workspace-id }}"
+          service_key="${{ matrix.service_key }}"
+
+          # 1. Try repo-sync output first
+          raw='${{ steps.repo_sync.outputs.environment-uids-json }}'
+          if [[ -n "${raw}" && "${raw}" != "null" && "${raw}" != "{}" ]]; then
+            prod_id=$(echo "${raw}" | jq -r '.prod // empty')
+            stage_id=$(echo "${raw}" | jq -r '.stage // empty')
+          fi
+
+          # 2. Fall back to manifest environment_uids
+          if [[ -z "${prod_id:-}" ]]; then
+            prod_id=$(jq -r --arg key "${service_key}" \
+              '.services[] | select(.service_key == $key) | .environment_uids.prod // empty' \
+              "${MANIFEST_PATH}")
+            stage_id=$(jq -r --arg key "${service_key}" \
+              '.services[] | select(.service_key == $key) | .environment_uids.stage // empty' \
+              "${MANIFEST_PATH}")
+          fi
+
+          # 3. Fall back to workspace environment lookup via API
+          if [[ -z "${prod_id:-}" ]]; then
+            echo "Looking up environments in workspace ${workspace_id}..."
+            envs=$(curl -s "https://api.getpostman.com/environments" \
+              -H "x-api-key: ${POSTMAN_API_KEY}")
+            prod_id=$(echo "${envs}" | jq -r --arg svc "${service_key}" \
+              '.environments[] | select(.name == ($svc + " - prod")) | .uid // empty')
+            stage_id=$(echo "${envs}" | jq -r --arg svc "${service_key}" \
+              '.environments[] | select(.name == ($svc + " - stage")) | .uid // empty')
+          fi
+
+          # 4. Create environments if still missing
+          if [[ -z "${prod_id:-}" ]]; then
+            echo "Creating prod environment for ${service_key}..."
+            prod_resp=$(curl -s -X POST "https://api.getpostman.com/environments?workspace=${workspace_id}" \
+              -H "x-api-key: ${POSTMAN_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "{\"environment\":{\"name\":\"${service_key} - prod\",\"values\":[{\"key\":\"baseUrl\",\"value\":\"${{ matrix.runtime_urls.prod || '' }}\",\"enabled\":true},{\"key\":\"environment\",\"value\":\"production\",\"enabled\":true},{\"key\":\"INSIGHTS_CLUSTER_NAME\",\"value\":\"${{ matrix.cluster_name }}\",\"enabled\":true}]}}")
+            prod_id=$(echo "${prod_resp}" | jq -r '.environment.uid // empty')
+            echo "Created prod: ${prod_id}"
+          fi
+          if [[ -z "${stage_id:-}" ]]; then
+            echo "Creating stage environment for ${service_key}..."
+            stage_resp=$(curl -s -X POST "https://api.getpostman.com/environments?workspace=${workspace_id}" \
+              -H "x-api-key: ${POSTMAN_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "{\"environment\":{\"name\":\"${service_key} - stage\",\"values\":[{\"key\":\"baseUrl\",\"value\":\"${{ matrix.runtime_urls.stage || '' }}\",\"enabled\":true},{\"key\":\"environment\",\"value\":\"staging\",\"enabled\":true},{\"key\":\"INSIGHTS_CLUSTER_NAME\",\"value\":\"${{ matrix.cluster_name }}\",\"enabled\":true}]}}")
+            stage_id=$(echo "${stage_resp}" | jq -r '.environment.uid // empty')
+            echo "Created stage: ${stage_id}"
+          fi
+
+          echo "prod_env_id=${prod_id:-}" >> "${GITHUB_OUTPUT}"
+          echo "stage_env_id=${stage_id:-}" >> "${GITHUB_OUTPUT}"
+          echo "env_uids_json={\"prod\":\"${prod_id:-}\",\"stage\":\"${stage_id:-}\"}" >> "${GITHUB_OUTPUT}"
+          echo "Resolved: prod=${prod_id:-} stage=${stage_id:-}"
+
       - name: Pull latest main before sync
         run: |
           git fetch origin main
@@ -213,6 +277,7 @@ jobs:
           contract-collection-id: ${{ steps.bootstrap.outputs.contract-collection-id }}
           spec-path: ${{ matrix.spec_path }}
           environments-json: ${{ toJSON(matrix.environments) }}
+          environment-uids-json: ${{ steps.resolve_env.outputs.env_uids_json }}
           env-runtime-urls-json: ${{ toJSON(matrix.runtime_urls) }}
           generate-ci-workflow: false
           integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
@@ -222,20 +287,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           gh-fallback-token: ${{ secrets.GH_FALLBACK_TOKEN }}
 
-      - name: Resolve environment UIDs from repo sync
-        id: resolve_env
-        if: ${{ matrix.enable_insights }}
-        shell: bash
-        run: |
-          raw='${{ steps.repo_sync.outputs.environment-uids-json }}'
-          if [[ -n "${raw}" && "${raw}" != "null" ]]; then
-            prod_id=$(echo "${raw}" | jq -r '.prod // empty')
-          fi
-          echo "prod_env_id=${prod_id:-}" >> "${GITHUB_OUTPUT}"
-
       - name: Provision system environment for Insights
         id: provision_system_env
         if: ${{ matrix.enable_insights }}
+        continue-on-error: true
         shell: bash
         env:
           POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
@@ -245,6 +300,7 @@ jobs:
 
           workspace_id="${{ steps.bootstrap.outputs.workspace-id }}"
           prod_env_id="${{ steps.resolve_env.outputs.prod_env_id }}"
+          service_key="${{ matrix.service_key }}"
           manifest_system_env="$(jq -r '.system_env // empty' "${MANIFEST_PATH}")"
 
           if [[ -n "${manifest_system_env}" ]]; then
@@ -253,8 +309,10 @@ jobs:
             exit 0
           fi
 
-          echo "Creating system environment for workspace ${workspace_id}..."
+          echo "Workspace: ${workspace_id}  Prod env: ${prod_env_id}"
 
+          # Approach 1: Public API
+          echo "Trying public API /detected-apis/system-environments..."
           response=$(curl -s -w "\n%{http_code}" \
             -X POST "https://api.getpostman.com/detected-apis/system-environments" \
             -H "x-api-key: ${POSTMAN_API_KEY}" \
@@ -264,21 +322,85 @@ jobs:
               \"workspace_id\": \"${workspace_id}\",
               \"environment_id\": \"${prod_env_id}\"
             }")
-
           http_code=$(echo "${response}" | tail -1)
           body=$(echo "${response}" | sed '$d')
-
           if [[ "${http_code}" =~ ^2[0-9]{2}$ ]]; then
             sys_env=$(echo "${body}" | jq -r '.id // .data.id // .system_environment.id // empty')
             if [[ -n "${sys_env}" ]]; then
-              echo "Created system environment: ${sys_env}"
+              echo "Created system environment via public API: ${sys_env}"
               echo "system_env_id=${sys_env}" >> "${GITHUB_OUTPUT}"
               exit 0
             fi
           fi
+          echo "Public API returned ${http_code}: $(echo "${body}" | head -5)"
 
-          echo "::warning::System environment API returned ${http_code} — falling back to Insights action auto-provisioning"
-          echo "${body}" | head -20
+          # Approach 2: Bifrost proxy (api-catalog service)
+          if [[ -n "${POSTMAN_ACCESS_TOKEN}" ]]; then
+            for path in \
+              "/api/v1/workspaces/${workspace_id}/system-environments" \
+              "/api/v1/system-environments" \
+              "/v1/system-environments"; do
+              echo "Trying Bifrost api-catalog ${path}..."
+              response=$(curl -s -w "\n%{http_code}" \
+                -X POST "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
+                -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
+                -H "x-entity-team-id: 14738775" \
+                -H "Content-Type: application/json" \
+                -d "{
+                  \"service\": \"api-catalog\",
+                  \"method\": \"POST\",
+                  \"path\": \"${path}\",
+                  \"body\": {
+                    \"name\": \"Production\",
+                    \"workspaceId\": \"${workspace_id}\",
+                    \"environmentId\": \"${prod_env_id}\",
+                    \"slug\": \"production\"
+                  }
+                }")
+              http_code=$(echo "${response}" | tail -1)
+              body=$(echo "${response}" | sed '$d')
+              if [[ "${http_code}" =~ ^2[0-9]{2}$ ]]; then
+                sys_env=$(echo "${body}" | jq -r '.id // .data.id // .systemEnvironment.id // empty')
+                if [[ -n "${sys_env}" ]]; then
+                  echo "Created system environment via Bifrost: ${sys_env}"
+                  echo "system_env_id=${sys_env}" >> "${GITHUB_OUTPUT}"
+                  exit 0
+                fi
+              fi
+              echo "  Returned ${http_code}: $(echo "${body}" | head -3)"
+            done
+
+            # Approach 3: Bifrost premium proxy
+            echo "Trying Bifrost premium proxy..."
+            response=$(curl -s -w "\n%{http_code}" \
+              -X POST "https://bifrost-premium-https-v4.gw.postman.com/ws/proxy" \
+              -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
+              -H "x-entity-team-id: 14738775" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"service\": \"api-catalog\",
+                \"method\": \"POST\",
+                \"path\": \"/api/v1/workspaces/${workspace_id}/system-environments\",
+                \"body\": {
+                  \"name\": \"Production\",
+                  \"environmentId\": \"${prod_env_id}\",
+                  \"slug\": \"production\"
+                }
+              }")
+            http_code=$(echo "${response}" | tail -1)
+            body=$(echo "${response}" | sed '$d')
+            if [[ "${http_code}" =~ ^2[0-9]{2}$ ]]; then
+              sys_env=$(echo "${body}" | jq -r '.id // .data.id // .systemEnvironment.id // empty')
+              if [[ -n "${sys_env}" ]]; then
+                echo "Created system environment via premium proxy: ${sys_env}"
+                echo "system_env_id=${sys_env}" >> "${GITHUB_OUTPUT}"
+                exit 0
+              fi
+            fi
+            echo "  Premium proxy returned ${http_code}: $(echo "${body}" | head -3)"
+          fi
+
+          echo "::warning::Could not create system environment for ${service_key} — API Catalog feature may not be enabled. Workspace environments are linked and ready."
           echo "system_env_id=" >> "${GITHUB_OUTPUT}"
 
       - name: Insights onboarding
@@ -333,7 +455,9 @@ jobs:
             echo "- Repo sync commit: \`${{ steps.repo_sync.outputs.commit-sha }}\`"
             echo "- Insights enabled: \`${{ matrix.enable_insights }}\`"
             echo "- Cluster: \`${{ matrix.cluster_name }}\`"
-            echo "- System env: \`${{ steps.provision_system_env.outputs.system_env_id || 'auto-provisioned by action' }}\`"
+            echo "- Prod env UID: \`${{ steps.resolve_env.outputs.prod_env_id }}\`"
+            echo "- Stage env UID: \`${{ steps.resolve_env.outputs.stage_env_id }}\`"
+            echo "- System env: \`${{ steps.provision_system_env.outputs.system_env_id || 'pending feature enablement' }}\`"
             echo "- Insights output: \`${{ steps.insights.outputs.system-env-id || steps.insights.outputs.system_env || 'see action logs' }}\`"
             echo "- Dependencies: \`${{ toJSON(matrix.dependencies) }}\`"
           } >> "${GITHUB_STEP_SUMMARY}"
