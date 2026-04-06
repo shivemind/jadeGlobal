@@ -5,8 +5,6 @@ method: GET
 headers:
   - key: Accept
     value: application/json
-  - key: traceparent
-    value: '{{_traceparent}}'
 scripts:
   - type: afterResponse
     code:
