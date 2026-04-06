@@ -195,6 +195,11 @@ jobs:
             --reporter-json-export "${REPORTS_DIR}/${{ matrix.service_key }}-contract.json" \
             2>&1 | tee "${REPORTS_DIR}/${{ matrix.service_key }}-contract.txt"
 
+      - name: Pull latest main before sync
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Repo sync and publish Spec Hub-backed assets to API catalog
         id: repo_sync
         continue-on-error: true
