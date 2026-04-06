@@ -7,6 +7,8 @@ headers:
     value: application/json
   - key: Accept
     value: application/json
+  - key: traceparent
+    value: '{{_traceparent}}'
 body:
   type: json
   content: |-

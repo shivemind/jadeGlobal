@@ -3,6 +3,10 @@ info:
   title: Payments API
   version: 1.4.2
   description: Core banking payments service
+  x-postman-insights:
+    cluster-name: core-banking-cluster
+    dependencies:
+      - accounts-api
 servers:
   - url: https://stage-api.example.com/payments
     description: Stage
@@ -13,9 +17,14 @@ paths:
     get:
       operationId: listPayments
       summary: List payments
+      parameters:
+        - $ref: "#/components/parameters/Traceparent"
       responses:
         "200":
           description: OK
+          headers:
+            traceparent:
+              $ref: "#/components/headers/Traceparent"
           content:
             application/json:
               schema:
@@ -25,6 +34,8 @@ paths:
     post:
       operationId: createPayment
       summary: Create a payment
+      parameters:
+        - $ref: "#/components/parameters/Traceparent"
       requestBody:
         required: true
         content:
@@ -34,6 +45,9 @@ paths:
       responses:
         "201":
           description: Created
+          headers:
+            traceparent:
+              $ref: "#/components/headers/Traceparent"
           content:
             application/json:
               schema:
@@ -48,9 +62,13 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: "#/components/parameters/Traceparent"
       responses:
         "200":
           description: OK
+          headers:
+            traceparent:
+              $ref: "#/components/headers/Traceparent"
           content:
             application/json:
               schema:
@@ -58,6 +76,22 @@ paths:
         "404":
           description: Not found
 components:
+  parameters:
+    Traceparent:
+      name: traceparent
+      in: header
+      required: false
+      description: W3C Trace Context header for distributed tracing. Format `00-<32-hex-trace-id>-<16-hex-span-id>-01`.
+      schema:
+        type: string
+        pattern: "^00-[0-9a-f]{32}-[0-9a-f]{16}-[0-9a-f]{2}$"
+        example: "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+  headers:
+    Traceparent:
+      description: W3C Trace Context header propagated on responses for correlation.
+      schema:
+        type: string
+        pattern: "^00-[0-9a-f]{32}-[0-9a-f]{16}-[0-9a-f]{2}$"
   schemas:
     Payment:
       type: object

@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: Workday Workforce Provisioning API
+  version: 1.0.0
+  description: >
+    Sample API for worker onboarding and downstream provisioning across HR,
+    identity, and application access workflows.
+servers:
+  - url: https://stage-api.example.com/workforce
+    description: Stage
+  - url: https://api.example.com/workforce
+    description: Production
+tags:
+  - name: Workers
+  - name: Provisioning
+paths:
+  /workers:
+    post:
+      operationId: createWorker
+      summary: Create a worker profile and initiate onboarding
+      tags: [Workers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateWorkerRequest"
+      responses:
+        "201":
+          description: Worker created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Worker"
+  /workers/{workerId}:
+    get:
+      operationId: getWorker
+      summary: Get worker profile and onboarding state
+      tags: [Workers]
+      parameters:
+        - $ref: "#/components/parameters/WorkerId"
+      responses:
+        "200":
+          description: Worker details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Worker"
+  /workers/{workerId}/access-requests:
+    post:
+      operationId: requestAccess
+      summary: Request downstream app access for a worker
+      tags: [Provisioning]
+      parameters:
+        - $ref: "#/components/parameters/WorkerId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccessRequest"
+      responses:
+        "201":
+          description: Access request created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProvisioningTicket"
+  /workers/{workerId}/provisioning-status:
+    get:
+      operationId: getProvisioningStatus
+      summary: Get identity and application provisioning status
+      tags: [Provisioning]
+      parameters:
+        - $ref: "#/components/parameters/WorkerId"
+      responses:
+        "200":
+          description: Provisioning state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProvisioningStatus"
+components:
+  parameters:
+    WorkerId:
+      name: workerId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    CreateWorkerRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - workEmail
+        - department
+        - startDate
+        - managerId
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        workEmail:
+          type: string
+          format: email
+        department:
+          type: string
+        location:
+          type: string
+        startDate:
+          type: string
+          format: date
+        employmentType:
+          type: string
+          enum: [employee, contractor, intern]
+        managerId:
+          type: string
+    Worker:
+      type: object
+      properties:
+        workerId:
+          type: string
+          format: uuid
+        employeeNumber:
+          type: string
+        status:
+          type: string
+          enum: [prehire, active, leave, terminated]
+        department:
+          type: string
+        location:
+          type: string
+        startDate:
+          type: string
+          format: date
+        onboardingState:
+          type: string
+          enum: [initiated, pending_access, provisioned, completed, blocked]
+    AccessRequest:
+      type: object
+      required:
+        - systemName
+        - roleName
+      properties:
+        systemName:
+          type: string
+          example: salesforce
+        roleName:
+          type: string
+        justification:
+          type: string
+        requestedBy:
+          type: string
+    ProvisioningTicket:
+      type: object
+      properties:
+        ticketId:
+          type: string
+          format: uuid
+        workerId:
+          type: string
+          format: uuid
+        systemName:
+          type: string
+        status:
+          type: string
+          enum: [queued, awaiting_approval, provisioning, completed, failed]
+    ProvisioningStatus:
+      type: object
+      properties:
+        workerId:
+          type: string
+          format: uuid
+        identityStatus:
+          type: string
+          enum: [not_started, in_progress, completed, failed]
+        laptopStatus:
+          type: string
+          enum: [not_started, in_progress, completed, failed]
+        applicationAccess:
+          type: array
+          items:
+            type: object
+            properties:
+              systemName:
+                type: string
+              status:
+                type: string
+                enum: [not_started, in_progress, completed, failed]

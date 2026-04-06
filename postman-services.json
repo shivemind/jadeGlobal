@@ -1,4 +1,66 @@
 {
+  "system_env": "",
+  "insights_agent_namespace": "postman-insights-namespace",
+  "k8s_namespace": "jade-global",
+  "dependency_graph": {
+    "edges": [
+      {
+        "from": "payments-api",
+        "to": "accounts-api",
+        "relationship": "validates source account before processing payment"
+      },
+      {
+        "from": "oracle-order-orchestration-api",
+        "to": "payments-api",
+        "relationship": "submits payment for confirmed orders"
+      },
+      {
+        "from": "oracle-order-orchestration-api",
+        "to": "accounts-api",
+        "relationship": "resolves customer account for order fulfillment"
+      },
+      {
+        "from": "salesforce-revenue-onboarding-api",
+        "to": "oracle-order-orchestration-api",
+        "relationship": "close-won opportunity triggers ERP order creation"
+      },
+      {
+        "from": "salesforce-revenue-onboarding-api",
+        "to": "workday-workforce-provisioning-api",
+        "relationship": "close-won triggers customer-side workforce provisioning"
+      },
+      {
+        "from": "workday-workforce-provisioning-api",
+        "to": "salesforce-revenue-onboarding-api",
+        "relationship": "requests Salesforce access for provisioned workers"
+      },
+      {
+        "from": "qa-automation-control-plane-api",
+        "to": "oracle-order-orchestration-api",
+        "relationship": "runs integration test suites against order orchestration"
+      },
+      {
+        "from": "qa-automation-control-plane-api",
+        "to": "salesforce-revenue-onboarding-api",
+        "relationship": "runs regression suites against revenue onboarding"
+      },
+      {
+        "from": "qa-automation-control-plane-api",
+        "to": "workday-workforce-provisioning-api",
+        "relationship": "runs provisioning validation suites"
+      },
+      {
+        "from": "qa-automation-control-plane-api",
+        "to": "payments-api",
+        "relationship": "runs payment smoke and contract suites"
+      },
+      {
+        "from": "qa-automation-control-plane-api",
+        "to": "accounts-api",
+        "relationship": "runs account smoke and contract suites"
+      }
+    ]
+  },
   "services": [
     {
       "service_key": "payments-api",
@@ -14,17 +76,17 @@
       "baseline_collection_id": "53720583-6da5688d-e15a-4faf-be75-961fd77792f9",
       "smoke_collection_id": "53720583-0c4edbfe-ba3e-4aa3-ab41-2c6c98fe886f",
       "contract_collection_id": "53720583-9f312037-31e2-4859-ae9a-312837ebf726",
-      "environments": [
-        "prod",
-        "stage"
-      ],
+      "environments": ["prod", "stage"],
       "runtime_urls": {
         "prod": "https://api.example.com/payments",
         "stage": "https://stage-api.example.com/payments"
       },
       "smoke_base_url": "https://stage-api.example.com/payments",
       "enable_insights": true,
-      "cluster_name": "payments-cluster"
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5001,
+      "k8s_dns_name": "payments-api.jade-global.svc.cluster.local",
+      "dependencies": ["accounts-api"]
     },
     {
       "service_key": "accounts-api",
@@ -40,17 +102,121 @@
       "baseline_collection_id": "53720583-a83522dd-6818-44ba-a73f-1a52e6fe5bd3",
       "smoke_collection_id": "53720583-27584d87-c17b-423a-9912-cc00aa220eec",
       "contract_collection_id": "53720583-335b1f01-fd53-42e3-a901-2767334e2bf7",
-      "environments": [
-        "prod",
-        "stage"
-      ],
+      "environments": ["prod", "stage"],
       "runtime_urls": {
         "prod": "https://api.example.com/accounts",
         "stage": "https://stage-api.example.com/accounts"
       },
       "smoke_base_url": "https://stage-api.example.com/accounts",
-      "enable_insights": false,
-      "cluster_name": ""
+      "enable_insights": true,
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5002,
+      "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
+      "dependencies": []
+    },
+    {
+      "service_key": "oracle-order-orchestration-api",
+      "service_name": "Oracle Order Orchestration API",
+      "domain": "erp-integration",
+      "domain_code": "EI",
+      "requester_email": "owner@example.com",
+      "version": "1.0.0",
+      "spec_path": "openapi/oracle-order-orchestration-api.yaml",
+      "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/oracle-order-orchestration-api.yaml",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": ["prod", "stage"],
+      "runtime_urls": {
+        "prod": "https://api.example.com/oracle-orders",
+        "stage": "https://stage-api.example.com/oracle-orders"
+      },
+      "smoke_base_url": "https://stage-api.example.com/oracle-orders",
+      "enable_insights": true,
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5003,
+      "k8s_dns_name": "oracle-order-orchestration-api.jade-global.svc.cluster.local",
+      "dependencies": ["payments-api", "accounts-api"]
+    },
+    {
+      "service_key": "salesforce-revenue-onboarding-api",
+      "service_name": "Salesforce Revenue Onboarding API",
+      "domain": "revenue-operations",
+      "domain_code": "RO",
+      "requester_email": "owner@example.com",
+      "version": "1.0.0",
+      "spec_path": "openapi/salesforce-revenue-onboarding-api.yaml",
+      "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/salesforce-revenue-onboarding-api.yaml",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": ["prod", "stage"],
+      "runtime_urls": {
+        "prod": "https://api.example.com/revenue-onboarding",
+        "stage": "https://stage-api.example.com/revenue-onboarding"
+      },
+      "smoke_base_url": "https://stage-api.example.com/revenue-onboarding",
+      "enable_insights": true,
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5004,
+      "k8s_dns_name": "salesforce-revenue-onboarding-api.jade-global.svc.cluster.local",
+      "dependencies": ["oracle-order-orchestration-api", "workday-workforce-provisioning-api"]
+    },
+    {
+      "service_key": "workday-workforce-provisioning-api",
+      "service_name": "Workday Workforce Provisioning API",
+      "domain": "workforce-management",
+      "domain_code": "WM",
+      "requester_email": "owner@example.com",
+      "version": "1.0.0",
+      "spec_path": "openapi/workday-workforce-provisioning-api.yaml",
+      "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/workday-workforce-provisioning-api.yaml",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": ["prod", "stage"],
+      "runtime_urls": {
+        "prod": "https://api.example.com/workforce",
+        "stage": "https://stage-api.example.com/workforce"
+      },
+      "smoke_base_url": "https://stage-api.example.com/workforce",
+      "enable_insights": true,
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5005,
+      "k8s_dns_name": "workday-workforce-provisioning-api.jade-global.svc.cluster.local",
+      "dependencies": ["salesforce-revenue-onboarding-api"]
+    },
+    {
+      "service_key": "qa-automation-control-plane-api",
+      "service_name": "QA Automation Control Plane API",
+      "domain": "qa-automation",
+      "domain_code": "QA",
+      "requester_email": "owner@example.com",
+      "version": "1.0.0",
+      "spec_path": "openapi/qa-automation-control-plane-api.yaml",
+      "spec_url": "https://raw.githubusercontent.com/danielshively-source/jadeGlobal/main/openapi/qa-automation-control-plane-api.yaml",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
+      "environments": ["prod", "stage"],
+      "runtime_urls": {
+        "prod": "https://api.example.com/qa-control",
+        "stage": "https://stage-api.example.com/qa-control"
+      },
+      "smoke_base_url": "https://stage-api.example.com/qa-control",
+      "enable_insights": true,
+      "cluster_name": "jade-global-cluster",
+      "k8s_port": 5006,
+      "k8s_dns_name": "qa-automation-control-plane-api.jade-global.svc.cluster.local",
+      "dependencies": ["oracle-order-orchestration-api", "salesforce-revenue-onboarding-api", "workday-workforce-provisioning-api", "payments-api", "accounts-api"]
     }
   ]
 }

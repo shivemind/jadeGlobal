@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: Salesforce Revenue Onboarding API
+  version: 1.0.0
+  description: >
+    Sample API for a Salesforce-centric lead-to-cash and customer onboarding
+    workflow. Intended for demoing team collaboration and reuse in Postman.
+servers:
+  - url: https://stage-api.example.com/revenue-onboarding
+    description: Stage
+  - url: https://api.example.com/revenue-onboarding
+    description: Production
+tags:
+  - name: Leads
+  - name: Opportunities
+  - name: Onboarding
+paths:
+  /leads:
+    post:
+      operationId: createLead
+      summary: Capture a new inbound lead
+      tags: [Leads]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeadRequest"
+      responses:
+        "201":
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+  /opportunities:
+    post:
+      operationId: createOpportunity
+      summary: Convert a qualified lead into an opportunity
+      tags: [Opportunities]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOpportunityRequest"
+      responses:
+        "201":
+          description: Opportunity created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Opportunity"
+  /opportunities/{opportunityId}/close-won:
+    post:
+      operationId: closeWonOpportunity
+      summary: Mark an opportunity as close-won and trigger onboarding
+      tags: [Opportunities, Onboarding]
+      parameters:
+        - $ref: "#/components/parameters/OpportunityId"
+      responses:
+        "202":
+          description: Close-won workflow started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowRun"
+  /customers/{customerId}/onboarding:
+    get:
+      operationId: getOnboardingStatus
+      summary: Get onboarding progress for a newly won customer
+      tags: [Onboarding]
+      parameters:
+        - $ref: "#/components/parameters/CustomerId"
+      responses:
+        "200":
+          description: Onboarding status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnboardingStatus"
+components:
+  parameters:
+    OpportunityId:
+      name: opportunityId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CustomerId:
+      name: customerId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    CreateLeadRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - company
+        - source
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        company:
+          type: string
+        source:
+          type: string
+          example: webinar
+        interestArea:
+          type: string
+          example: revenue-operations
+    Lead:
+      type: object
+      properties:
+        leadId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [new, working, qualified, disqualified]
+        score:
+          type: integer
+        owner:
+          type: string
+    CreateOpportunityRequest:
+      type: object
+      required:
+        - leadId
+        - accountName
+        - amount
+        - expectedCloseDate
+      properties:
+        leadId:
+          type: string
+          format: uuid
+        accountName:
+          type: string
+        amount:
+          type: number
+          format: double
+        expectedCloseDate:
+          type: string
+          format: date
+        productFamily:
+          type: string
+        billingModel:
+          type: string
+          enum: [subscription, project, usage, hybrid]
+    Opportunity:
+      type: object
+      properties:
+        opportunityId:
+          type: string
+          format: uuid
+        accountName:
+          type: string
+        stage:
+          type: string
+          enum: [qualification, proposal, legal_review, close_won, close_lost]
+        amount:
+          type: number
+          format: double
+        expectedCloseDate:
+          type: string
+          format: date
+    WorkflowRun:
+      type: object
+      properties:
+        runId:
+          type: string
+          format: uuid
+        workflowName:
+          type: string
+          example: customer-onboarding
+        status:
+          type: string
+          enum: [queued, running, completed, failed]
+        customerId:
+          type: string
+    OnboardingStatus:
+      type: object
+      properties:
+        customerId:
+          type: string
+        provisioningStatus:
+          type: string
+          enum: [not_started, in_progress, completed, blocked]
+        financeSetupStatus:
+          type: string
+          enum: [not_started, in_progress, completed, blocked]
+        integrationStatus:
+          type: string
+          enum: [not_started, in_progress, completed, blocked]
+        kickoffDate:
+          type: string
+          format: date

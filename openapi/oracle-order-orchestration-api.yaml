@@ -1,0 +1,231 @@
+openapi: 3.0.3
+info:
+  title: Oracle Order Orchestration API
+  version: 1.0.0
+  description: >
+    Sample API for a Jade Global-style Oracle ERP and supply chain integration
+    workflow. Designed to demonstrate cataloging, collaboration, testing, and
+    governance in Postman Enterprise.
+servers:
+  - url: https://stage-api.example.com/oracle-orders
+    description: Stage
+  - url: https://api.example.com/oracle-orders
+    description: Production
+tags:
+  - name: Orders
+  - name: Fulfillment
+paths:
+  /orders:
+    post:
+      operationId: createOrder
+      summary: Create an ERP order for downstream fulfillment
+      tags: [Orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      summary: Get order status and fulfillment details
+      tags: [Orders]
+      parameters:
+        - $ref: "#/components/parameters/OrderId"
+      responses:
+        "200":
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /orders/{orderId}/reserve-inventory:
+    post:
+      operationId: reserveInventory
+      summary: Reserve inventory for a confirmed order
+      tags: [Fulfillment]
+      parameters:
+        - $ref: "#/components/parameters/OrderId"
+      responses:
+        "202":
+          description: Inventory reservation requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FulfillmentAction"
+        "409":
+          description: Inventory cannot be reserved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /orders/{orderId}/shipments:
+    post:
+      operationId: createShipment
+      summary: Create a shipment for a reserved order
+      tags: [Fulfillment]
+      parameters:
+        - $ref: "#/components/parameters/OrderId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateShipmentRequest"
+      responses:
+        "201":
+          description: Shipment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+components:
+  parameters:
+    OrderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    CreateOrderRequest:
+      type: object
+      required:
+        - customerId
+        - orderDate
+        - currency
+        - lineItems
+      properties:
+        customerId:
+          type: string
+        sourceSystem:
+          type: string
+          example: salesforce
+        orderDate:
+          type: string
+          format: date
+        currency:
+          type: string
+          example: USD
+        lineItems:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/LineItem"
+    LineItem:
+      type: object
+      required:
+        - sku
+        - quantity
+        - unitPrice
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+        unitPrice:
+          type: number
+          format: double
+        warehouseCode:
+          type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        customerId:
+          type: string
+        sourceSystem:
+          type: string
+        orderDate:
+          type: string
+          format: date
+        currency:
+          type: string
+        status:
+          type: string
+          enum: [draft, confirmed, reserved, partially_shipped, shipped, cancelled]
+        totalAmount:
+          type: number
+          format: double
+        lineItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/LineItem"
+        shipments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Shipment"
+    CreateShipmentRequest:
+      type: object
+      required:
+        - carrier
+        - shipFrom
+      properties:
+        carrier:
+          type: string
+        shipFrom:
+          type: string
+        trackingReference:
+          type: string
+    Shipment:
+      type: object
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        carrier:
+          type: string
+        shipFrom:
+          type: string
+        trackingReference:
+          type: string
+        status:
+          type: string
+          enum: [created, packed, shipped, delivered]
+    FulfillmentAction:
+      type: object
+      properties:
+        actionId:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, running, completed, failed]
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer

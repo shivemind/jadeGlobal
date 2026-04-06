@@ -6,6 +6,31 @@ id: 9f312037-31e2-4859-ae9a-312837ebf726
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/payments
+scripts:
+  - type: beforeRequest
+    code:
+      - "var crypto = require('crypto-js');"
+      - "var existing = pm.request.headers.get('traceparent');"
+      - "if (!existing || existing.split('-').length !== 4) {"
+      - "    var traceId = CryptoJS.lib.WordArray.random(16).toString();"
+      - "    var spanId = CryptoJS.lib.WordArray.random(8).toString();"
+      - "    var tp = '00-' + traceId + '-' + spanId + '-01';"
+      - "    pm.request.headers.upsert({ key: 'traceparent', value: tp });"
+      - "    pm.collectionVariables.set('_traceparent', tp);"
+      - "}"
+    language: text/javascript
+  - type: afterResponse
+    code:
+      - "pm.test('traceparent header is propagated', function () {"
+      - "    var tp = pm.response.headers.get('traceparent');"
+      - "    if (tp) {"
+      - "        var parts = tp.split('-');"
+      - "        pm.expect(parts).to.have.length(4);"
+      - "        pm.expect(parts[1]).to.have.length(32);"
+      - "        pm.expect(parts[2]).to.have.length(16);"
+      - "    }"
+      - "});"
+    language: text/javascript
 items:
   - ref: ./payments/folder.yaml
   - ref: ./00 - Resolve Secrets.request.yaml
