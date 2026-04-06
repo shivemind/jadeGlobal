@@ -271,10 +271,9 @@ jobs:
           workspace-id: ${{ steps.bootstrap.outputs.workspace-id }}
           environment-id: ${{ fromJSON(steps.repo_sync.outputs.environment-uids-json).prod }}
           cluster-name: ${{ matrix.cluster_name }}
-          system-env: ${{ steps.provision_system_env.outputs.system_env_id }}
-          integration-backend: ${{ env.POSTMAN_INTEGRATION_BACKEND }}
-          postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          system-environment-id: ${{ steps.provision_system_env.outputs.system_env_id }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
+          postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Postman reports
