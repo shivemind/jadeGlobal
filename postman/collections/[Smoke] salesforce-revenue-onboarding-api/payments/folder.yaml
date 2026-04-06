@@ -1,0 +1,6 @@
+type: folder
+name: payments
+items:
+  - ref: ./{paymentId}/folder.yaml
+  - ref: ./List payments.request.yaml
+  - ref: ./Create a payment.request.yaml
