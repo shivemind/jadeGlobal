@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: graph-traffic-generator
+  namespace: jade-global
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: traffic
+            image: curlimages/curl:latest
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              for i in $(seq 1 5); do
+                TID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+                SID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+                TP="00-${TID}-${SID}-01"
+
+                curl -s -H "traceparent: $TP" http://qa-automation-control-plane-api.jade-global.svc.cluster.local/test-suites > /dev/null
+                sleep 1
+
+                TID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+                SID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+                TP="00-${TID}-${SID}-01"
+                curl -s -H "traceparent: $TP" http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/close-won > /dev/null
+                sleep 1
+
+                TID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+                SID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+                TP="00-${TID}-${SID}-01"
+                curl -s -H "traceparent: $TP" http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders > /dev/null
+                sleep 1
+
+                TID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+                SID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 16 | head -n 1)
+                TP="00-${TID}-${SID}-01"
+                curl -s -H "traceparent: $TP" http://payments-api.jade-global.svc.cluster.local/payments > /dev/null
+                sleep 1
+              done

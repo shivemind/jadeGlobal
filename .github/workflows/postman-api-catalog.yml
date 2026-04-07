@@ -131,6 +131,9 @@ jobs:
       - name: Prepare reports directory
         run: mkdir -p "${REPORTS_DIR}"
 
+      - name: Isolate workspace per service
+        run: rm -rf .postman/resources.yaml postman/
+
       - name: Bootstrap workspace, spec, and collections
         id: bootstrap
         uses: postman-cs/postman-bootstrap-action@v0
@@ -265,6 +268,7 @@ jobs:
         run: |
           git fetch origin main
           git reset --hard origin/main
+          rm -rf .postman/resources.yaml
 
       - name: Repo sync and publish Spec Hub-backed assets to API catalog
         id: repo_sync
@@ -288,6 +292,41 @@ jobs:
           org-mode: "true"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           gh-fallback-token: ${{ secrets.GH_FALLBACK_TOKEN }}
+
+      - name: Persist workspace ID to manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+          rm -rf .postman/resources.yaml
+
+          ws_id="${{ steps.bootstrap.outputs.workspace-id }}"
+          spec_id="${{ steps.bootstrap.outputs.spec-id }}"
+          baseline_id="${{ steps.bootstrap.outputs.baseline-collection-id }}"
+          smoke_id="${{ steps.bootstrap.outputs.smoke-collection-id }}"
+          contract_id="${{ steps.bootstrap.outputs.contract-collection-id }}"
+          svc_key="${{ matrix.service_key }}"
+          prod_env="${{ steps.resolve_env.outputs.prod_env_id }}"
+          stage_env="${{ steps.resolve_env.outputs.stage_env_id }}"
+
+          jq --arg key "${svc_key}" --arg ws "${ws_id}" --arg spec "${spec_id}" \
+             --arg bl "${baseline_id}" --arg sm "${smoke_id}" --arg ct "${contract_id}" \
+             --arg prod "${prod_env}" --arg stage "${stage_env}" \
+            '(.services[] | select(.service_key == $key)) |=
+              (.workspace_id = $ws | .spec_id = $spec |
+               .baseline_collection_id = $bl | .smoke_collection_id = $sm |
+               .contract_collection_id = $ct |
+               .environment_uids.prod = $prod | .environment_uids.stage = $stage)' \
+            "${MANIFEST_PATH}" > tmp.json && mv tmp.json "${MANIFEST_PATH}"
+
+          if ! git diff --quiet "${MANIFEST_PATH}"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add "${MANIFEST_PATH}"
+            git commit -m "chore: persist ${svc_key} workspace ${ws_id}"
+            git push origin main
+          fi
 
       - name: Provision system environment for Insights
         id: provision_system_env
