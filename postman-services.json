@@ -211,11 +211,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/workday-workforce-provisioning-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/workday-workforce-provisioning-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "f0461107-3973-42d5-b301-640a9637694e",
+      "spec_id": "cb30454b-c8fd-4dd4-8a2f-c7cb53532001",
+      "baseline_collection_id": "52400725-70beccb7-c1ea-446c-aaa9-24fbf1a35caf",
+      "smoke_collection_id": "52400725-1f0800fb-b4b8-4d3a-9b8d-1874f7a0c35a",
+      "contract_collection_id": "52400725-dba26d09-3f01-4e89-a29c-e8d378fc93a1",
       "environments": [
         "prod",
         "stage"
@@ -232,7 +232,10 @@
       "dependencies": [
         "salesforce-revenue-onboarding-api"
       ],
-      "environment_uids": {}
+      "environment_uids": {
+        "prod": "52400725-c7ee764c-decf-47e0-acb3-322ed56b0dad",
+        "stage": "52400725-9b823067-800b-484b-9340-1e95d4c2be99"
+      }
     },
     {
       "service_key": "qa-automation-control-plane-api",
