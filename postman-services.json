@@ -139,11 +139,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/oracle-order-orchestration-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/oracle-order-orchestration-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "70b40ffa-e0e0-41ab-bad5-9da4acf4fb6a",
+      "spec_id": "ed0abb87-bb80-4302-9e29-93e832fe2990",
+      "baseline_collection_id": "52400725-a4c7412a-4e7e-4064-a42a-9037e982a93b",
+      "smoke_collection_id": "52400725-108a1f20-3e3f-4cbd-9286-96e0e68e6583",
+      "contract_collection_id": "52400725-98ee96f8-6062-4e20-a0e7-e995f56751b1",
       "environments": [
         "prod",
         "stage"
@@ -161,7 +161,10 @@
         "payments-api",
         "accounts-api"
       ],
-      "environment_uids": {}
+      "environment_uids": {
+        "prod": "52400725-36f2e8ba-047a-4132-9eb9-7e64d6f058f8",
+        "stage": "52400725-cceb9bd3-df98-4371-b771-df01ca62ebd0"
+      }
     },
     {
       "service_key": "salesforce-revenue-onboarding-api",
