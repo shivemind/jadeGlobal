@@ -15,7 +15,7 @@ body:
   content: |-
     {
       "name": "string",
-      "type": "checking",
+      "type": "investment",
       "currency": "string"
     }
 scripts:
@@ -90,10 +90,10 @@ examples:
             "id": "string",
             "name": "string",
             "type": "investment",
-            "balance": 128.11605373276524,
+            "balance": 870.5623289331954,
             "currency": "string",
-            "status": "suspended",
-            "createdAt": "2009-01-02T15:31:02.206Z"
+            "status": "active",
+            "createdAt": "2024-04-10T07:54:15.610Z"
           }
       headers:
         - key: Content-Type

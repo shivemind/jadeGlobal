@@ -22,10 +22,10 @@ examples:
             "id": "string",
             "name": "string",
             "type": "savings",
-            "balance": 8763.639059857402,
+            "balance": 7749.563659572686,
             "currency": "string",
-            "status": "closed",
-            "createdAt": "1992-04-22T04:55:46.248Z"
+            "status": "suspended",
+            "createdAt": "2009-09-14T07:19:37.233Z"
           }
       headers:
         - key: Content-Type

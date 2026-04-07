@@ -2,10 +2,11 @@ $schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
 type: collection
 name: '[Smoke] accounts-api'
 description: Core banking accounts service
-id: 91f5d5e4-57b9-4a86-87db-e5562021b135
+id: 7bfd2138-22f2-45e7-a242-e5a9e5816b28
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/accounts
+    type: any
 items:
   - ref: ./accounts/folder.yaml
   - ref: ./00 - Resolve Secrets.request.yaml
