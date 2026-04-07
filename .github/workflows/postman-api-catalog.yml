@@ -172,6 +172,7 @@ jobs:
             --env-var "baseUrl=${{ matrix.smoke_base_url }}" \
             --env-var "apiVersion=${{ matrix.version }}" \
             --bail failure \
+            --report-events \
             --reporters cli,junit,json \
             --reporter-junit-export "${REPORTS_DIR}/${{ matrix.service_key }}-smoke.junit.xml" \
             --reporter-json-export "${REPORTS_DIR}/${{ matrix.service_key }}-smoke.json" \
@@ -190,6 +191,7 @@ jobs:
             --env-var "baseUrl=${{ matrix.smoke_base_url }}" \
             --env-var "apiVersion=${{ matrix.version }}" \
             --bail failure \
+            --report-events \
             --reporters cli,junit,json \
             --reporter-junit-export "${REPORTS_DIR}/${{ matrix.service_key }}-contract.junit.xml" \
             --reporter-json-export "${REPORTS_DIR}/${{ matrix.service_key }}-contract.json" \
@@ -229,9 +231,9 @@ jobs:
             envs=$(curl -s "https://api.getpostman.com/environments" \
               -H "x-api-key: ${POSTMAN_API_KEY}")
             prod_id=$(echo "${envs}" | jq -r --arg svc "${service_key}" \
-              '.environments[] | select(.name == ($svc + " - prod")) | .uid // empty')
+              '[.environments[] | select(.name == ($svc + " - prod"))] | first | .uid // empty')
             stage_id=$(echo "${envs}" | jq -r --arg svc "${service_key}" \
-              '.environments[] | select(.name == ($svc + " - stage")) | .uid // empty')
+              '[.environments[] | select(.name == ($svc + " - stage"))] | first | .uid // empty')
           fi
 
           # 4. Create environments if still missing
