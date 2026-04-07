@@ -198,8 +198,8 @@
         "workday-workforce-provisioning-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "53720583-0f3907a6-90b1-450b-9a1e-dd452000f1bc",
+        "stage": "53720583-d195d7de-2a4c-4420-9aa4-67a855bbefa3"
       }
     },
     {
