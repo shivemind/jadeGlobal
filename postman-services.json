@@ -126,8 +126,8 @@
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
       "dependencies": [],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "53720583-1937940d-9ddd-450c-9920-2e3a40edcada",
+        "stage": "53720583-2b693100-179c-49bd-a2cb-23a5419445bd"
       }
     },
     {
