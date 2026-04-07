@@ -1,0 +1,118 @@
+name: insights-onboarding
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_service:
+        description: "Optional: single service_key to onboard (blank = all)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  MANIFEST_PATH: postman-services.json
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+      has_services: ${{ steps.build.outputs.has_services }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="${{ inputs.target_service }}"
+          if [[ -n "${target}" ]]; then
+            filtered="$(jq -c --arg key "${target}" \
+              '[.services[] | select(.service_key == $key and .enable_insights == true)]' \
+              "${MANIFEST_PATH}")"
+          else
+            filtered="$(jq -c '[.services[] | select(.enable_insights == true)]' \
+              "${MANIFEST_PATH}")"
+          fi
+          count="$(jq 'length' <<<"${filtered}")"
+          if [[ "${count}" -eq 0 ]]; then
+            echo "has_services=false" >> "${GITHUB_OUTPUT}"
+            echo 'matrix={"include":[]}' >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+          echo "has_services=true" >> "${GITHUB_OUTPUT}"
+          echo "matrix=$(jq -c '{include: .}' <<<"${filtered}")" >> "${GITHUB_OUTPUT}"
+          echo "Processing ${count} services for Insights onboarding"
+
+  onboard:
+    needs: plan
+    if: needs.plan.outputs.has_services == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve IDs from manifest
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+          service_key="${{ matrix.service_key }}"
+          workspace_id="${{ matrix.workspace_id }}"
+          prod_env_id="$(jq -r --arg key "${service_key}" \
+            '.services[] | select(.service_key == $key) | .environment_uids.prod // empty' \
+            "${MANIFEST_PATH}")"
+          system_env="$(jq -r '.system_env // empty' "${MANIFEST_PATH}")"
+
+          echo "workspace_id=${workspace_id}" >> "${GITHUB_OUTPUT}"
+          echo "prod_env_id=${prod_env_id}" >> "${GITHUB_OUTPUT}"
+          echo "system_env=${system_env}" >> "${GITHUB_OUTPUT}"
+
+          echo "Service:      ${service_key}"
+          echo "Workspace:    ${workspace_id}"
+          echo "Prod env UID: ${prod_env_id}"
+          echo "System env:   ${system_env}"
+
+      - name: Insights onboarding
+        id: insights
+        continue-on-error: true
+        uses: postman-cs/postman-insights-onboarding-action@v0
+        env:
+          INPUT_PROJECT_NAME: ${{ matrix.service_key }}
+          INPUT_WORKSPACE_ID: ${{ steps.resolve.outputs.workspace_id }}
+          INPUT_ENVIRONMENT_ID: ${{ steps.resolve.outputs.prod_env_id }}
+          INPUT_CLUSTER_NAME: ${{ matrix.cluster_name }}
+          INPUT_SYSTEM_ENVIRONMENT_ID: ${{ steps.resolve.outputs.system_env }}
+          INPUT_POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          INPUT_POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_POSTMAN_TEAM_ID: "14738775"
+          INPUT_POLL_TIMEOUT_SECONDS: "120"
+          INPUT_POLL_INTERVAL_SECONDS: "10"
+        with:
+          project-name: ${{ matrix.service_key }}
+          workspace-id: ${{ steps.resolve.outputs.workspace_id }}
+          environment-id: ${{ steps.resolve.outputs.prod_env_id }}
+          cluster-name: ${{ matrix.cluster_name }}
+          system-environment-id: ${{ steps.resolve.outputs.system_env }}
+          postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
+          postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+          postman-team-id: "14738775"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "### Insights Onboarding: ${{ matrix.service_key }}"
+            echo "- Workspace: \`${{ steps.resolve.outputs.workspace_id }}\`"
+            echo "- Prod env:  \`${{ steps.resolve.outputs.prod_env_id }}\`"
+            echo "- System env: \`${{ steps.resolve.outputs.system_env }}\`"
+            echo "- Insights result: \`${{ steps.insights.outcome }}\`"
+            echo "- System env output: \`${{ steps.insights.outputs.system-env-id || 'n/a' }}\`"
+          } >> "${GITHUB_STEP_SUMMARY}"
