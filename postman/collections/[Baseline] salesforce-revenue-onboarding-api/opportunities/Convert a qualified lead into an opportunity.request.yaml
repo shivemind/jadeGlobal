@@ -11,10 +11,10 @@ body:
   type: json
   content: |-
     {
-      "leadId": "d869547e-d239-c321-fab7-3fa6bdc87f38",
+      "leadId": "3acd2c7a-c29a-1ea7-4eee-f66d419b5cca",
       "accountName": "string",
-      "amount": 2385.2238515926615,
-      "expectedCloseDate": "1964-08-11",
+      "amount": 7224.121404685077,
+      "expectedCloseDate": "1946-07-15",
       "productFamily": "string",
       "billingModel": "hybrid"
     }
@@ -26,11 +26,11 @@ examples:
         type: json
         content: |-
           {
-            "opportunityId": "91644a16-049f-031d-cbdd-74626ee045ee",
+            "opportunityId": "21e08bab-5dea-b38a-3e7c-c5dba95d274e",
             "accountName": "string",
             "stage": "close_won",
-            "amount": 5288.2404861251935,
-            "expectedCloseDate": "1949-05-19"
+            "amount": 4583.592632857958,
+            "expectedCloseDate": "1994-02-19"
           }
       headers:
         - key: Content-Type

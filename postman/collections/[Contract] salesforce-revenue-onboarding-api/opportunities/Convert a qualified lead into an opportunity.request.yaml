@@ -11,10 +11,10 @@ body:
   type: json
   content: |-
     {
-      "leadId": "e843d2d1-ae2c-4002-227c-d8a43a5f10a0",
+      "leadId": "491668b5-8423-d87d-b499-dacf019ca77e",
       "accountName": "string",
-      "amount": 4231.15016509164,
-      "expectedCloseDate": "2018-04-09",
+      "amount": 1664.397758180336,
+      "expectedCloseDate": "1970-01-26",
       "productFamily": "string",
       "billingModel": "project"
     }
@@ -87,11 +87,11 @@ examples:
         type: json
         content: |-
           {
-            "opportunityId": "705e55b2-a6eb-9c06-7241-18e19054e377",
+            "opportunityId": "0773176c-df24-fd05-a34e-f7897e9d2319",
             "accountName": "string",
-            "stage": "close_won",
-            "amount": 8677.55770370135,
-            "expectedCloseDate": "1994-12-10"
+            "stage": "proposal",
+            "amount": 5891.68118802697,
+            "expectedCloseDate": "1999-07-03"
           }
       headers:
         - key: Content-Type

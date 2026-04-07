@@ -78,10 +78,10 @@ examples:
         content: |-
           {
             "customerId": "string",
-            "provisioningStatus": "completed",
-            "financeSetupStatus": "blocked",
+            "provisioningStatus": "not_started",
+            "financeSetupStatus": "in_progress",
             "integrationStatus": "not_started",
-            "kickoffDate": "1976-01-11"
+            "kickoffDate": "2016-02-09"
           }
       headers:
         - key: Content-Type

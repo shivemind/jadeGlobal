@@ -11,12 +11,12 @@ body:
   type: json
   content: |-
     {
-      "leadId": "be2a3b88-c9c4-ce50-c5f4-9a858daa1fbc",
+      "leadId": "0325b8d4-04bd-256a-ecc2-81a088902e2e",
       "accountName": "string",
-      "amount": 9954.403282355408,
-      "expectedCloseDate": "2002-10-25",
+      "amount": 7404.192900005155,
+      "expectedCloseDate": "1994-06-25",
       "productFamily": "string",
-      "billingModel": "subscription"
+      "billingModel": "usage"
     }
 scripts:
   - type: afterResponse
@@ -44,11 +44,11 @@ examples:
         type: json
         content: |-
           {
-            "opportunityId": "2fecb91e-b36b-f2e4-1d8a-7ae6ebd8dfe2",
+            "opportunityId": "4386b738-9252-80b5-b418-dc09bda986cc",
             "accountName": "string",
-            "stage": "close_won",
-            "amount": 8232.038267229402,
-            "expectedCloseDate": "1965-03-05"
+            "stage": "close_lost",
+            "amount": 9784.86402290729,
+            "expectedCloseDate": "2014-11-09"
           }
       headers:
         - key: Content-Type
