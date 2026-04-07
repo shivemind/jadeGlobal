@@ -1,0 +1,4 @@
+type: folder
+name: close-won
+items:
+  - ref: ./Mark an opportunity as close-won and trigger onboarding.request.yaml

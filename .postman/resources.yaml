@@ -1,10 +1,10 @@
 workspace:
-  id: 82d4d551-7d92-413d-b6a8-9731bee7b80d
+  id: a91d7d19-c096-435e-b546-b1aee4b90533
 localResources:
   collections:
-    - ../postman/collections/[Baseline] oracle-order-orchestration-api
-    - ../postman/collections/[Smoke] oracle-order-orchestration-api
-    - ../postman/collections/[Contract] oracle-order-orchestration-api
+    - ../postman/collections/[Baseline] salesforce-revenue-onboarding-api
+    - ../postman/collections/[Smoke] salesforce-revenue-onboarding-api
+    - ../postman/collections/[Contract] salesforce-revenue-onboarding-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
@@ -17,9 +17,9 @@ localResources:
     - ../openapi/workday-workforce-provisioning-api.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Baseline] oracle-order-orchestration-api: 53720583-95c152d2-4026-4af4-865f-78a98ad9648a
-    ../postman/collections/[Smoke] oracle-order-orchestration-api: 53720583-097e8663-9e64-4064-8e9e-fafc2894697d
-    ../postman/collections/[Contract] oracle-order-orchestration-api: 53720583-aff5d42b-509e-487d-82a8-3368270d141d
+    ../postman/collections/[Baseline] salesforce-revenue-onboarding-api: 53720583-50ec088c-8061-402f-92b7-086c2b1b1915
+    ../postman/collections/[Smoke] salesforce-revenue-onboarding-api: 53720583-26a55cf3-35e2-4570-a9c8-2019353cb8f3
+    ../postman/collections/[Contract] salesforce-revenue-onboarding-api: 53720583-8ea67940-af0c-4506-9e0a-3e91f8f1cec1
   environments:
-    ../postman/environments/prod.postman_environment.json: 53720583-f4e2884a-871d-4d0a-b4ce-b893651d23d4
-    ../postman/environments/stage.postman_environment.json: 53720583-d31d7409-4633-4971-b31c-075c30821b85
+    ../postman/environments/prod.postman_environment.json: 53720583-0f3907a6-90b1-450b-9a1e-dd452000f1bc
+    ../postman/environments/stage.postman_environment.json: 53720583-d195d7de-2a4c-4420-9aa4-67a855bbefa3

@@ -1,0 +1,4 @@
+type: folder
+name: '{opportunityId}'
+items:
+  - ref: ./close-won/folder.yaml
