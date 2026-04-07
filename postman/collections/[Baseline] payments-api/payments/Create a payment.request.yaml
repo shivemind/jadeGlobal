@@ -1,0 +1,40 @@
+type: http
+name: Create a payment
+url: '{{baseUrl}}/payments'
+method: POST
+headers:
+  - key: traceparent
+    value: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+    description: W3C Trace Context header for distributed tracing. Format `00-<32-hex-trace-id>-<16-hex-span-id>-01`.
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "amount": 2075.999655786662,
+      "currency": "string"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "id": "string",
+            "amount": 9046.769890816468,
+            "currency": "string",
+            "status": "failed",
+            "createdAt": "1963-08-11T03:19:49.228Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+        - key: traceparent
+          value: ''
+          disabled: false
+    name: Created
