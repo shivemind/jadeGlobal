@@ -1,10 +1,10 @@
 workspace:
-  id: 3f751d9d-5af8-4081-94c6-b29b2214b4b6
+  id: 82d4d551-7d92-413d-b6a8-9731bee7b80d
 localResources:
   collections:
-    - ../postman/collections/[Baseline] accounts-api
-    - ../postman/collections/[Smoke] accounts-api
-    - ../postman/collections/[Contract] accounts-api
+    - ../postman/collections/[Baseline] oracle-order-orchestration-api
+    - ../postman/collections/[Smoke] oracle-order-orchestration-api
+    - ../postman/collections/[Contract] oracle-order-orchestration-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
@@ -17,9 +17,9 @@ localResources:
     - ../openapi/workday-workforce-provisioning-api.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Baseline] accounts-api: 53720583-de736d48-81ed-4f53-9fa6-d7c605b1c690
-    ../postman/collections/[Smoke] accounts-api: 53720583-91f5d5e4-57b9-4a86-87db-e5562021b135
-    ../postman/collections/[Contract] accounts-api: 53720583-2dcfb5ea-0c27-4ffa-924b-dde1483c0545
+    ../postman/collections/[Baseline] oracle-order-orchestration-api: 53720583-95c152d2-4026-4af4-865f-78a98ad9648a
+    ../postman/collections/[Smoke] oracle-order-orchestration-api: 53720583-097e8663-9e64-4064-8e9e-fafc2894697d
+    ../postman/collections/[Contract] oracle-order-orchestration-api: 53720583-aff5d42b-509e-487d-82a8-3368270d141d
   environments:
-    ../postman/environments/prod.postman_environment.json: 53720583-1937940d-9ddd-450c-9920-2e3a40edcada
-    ../postman/environments/stage.postman_environment.json: 53720583-2b693100-179c-49bd-a2cb-23a5419445bd
+    ../postman/environments/prod.postman_environment.json: 53720583-f4e2884a-871d-4d0a-b4ce-b893651d23d4
+    ../postman/environments/stage.postman_environment.json: 53720583-d31d7409-4633-4971-b31c-075c30821b85

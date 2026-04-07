@@ -1,0 +1,93 @@
+type: http
+name: Get order status and fulfillment details
+url: '{{baseUrl}}/orders/:orderId'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: orderId
+    value: 310926d5-edb1-7877-a11c-8e65734ec7a6
+scripts:
+  - type: afterResponse
+    code:
+      - // [Smoke] Auto-generated test assertions
+      - pm.test('Status code is successful (2xx)', function () {
+      - '    pm.response.to.be.success;'
+      - '});'
+      - pm.test('Response time is acceptable', function () {
+      - '    var threshold = parseInt(pm.environment.get(''RESPONSE_TIME_THRESHOLD'') || ''2000'', 10);'
+      - '    pm.expect(pm.response.responseTime).to.be.below(threshold);'
+      - '});'
+      - pm.test('Response body is not empty', function () {
+      - '    if (pm.response.code !== 204) {'
+      - '        var body = pm.response.text();'
+      - '        pm.expect(body.length).to.be.above(0);'
+      - '    }'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "id": "5b4e86cd-1655-26d0-c5e6-19bb56cfacd2",
+            "customerId": "string",
+            "sourceSystem": "string",
+            "orderDate": "1997-10-03",
+            "currency": "string",
+            "status": "draft",
+            "totalAmount": 8553.296815837452,
+            "lineItems": [
+              {
+                "sku": "string",
+                "quantity": 2741,
+                "unitPrice": 6554.256562281251,
+                "warehouseCode": "string"
+              },
+              {
+                "sku": "string",
+                "quantity": 453,
+                "unitPrice": 2880.200470882772,
+                "warehouseCode": "string"
+              }
+            ],
+            "shipments": [
+              {
+                "shipmentId": "095d1165-5727-c567-2f2e-a3d863a90bcc",
+                "carrier": "string",
+                "shipFrom": "string",
+                "trackingReference": "string",
+                "status": "shipped"
+              },
+              {
+                "shipmentId": "2e7db723-2052-655a-7a28-620aac39cb34",
+                "carrier": "string",
+                "shipFrom": "string",
+                "trackingReference": "string",
+                "status": "packed"
+              }
+            ]
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Order details
+  - response:
+      statusCode: 404
+      statusText: Not Found
+      body:
+        type: json
+        content: |-
+          {
+            "error": "string",
+            "message": "string",
+            "statusCode": 8552
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Order not found

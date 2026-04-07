@@ -1,0 +1,4 @@
+type: folder
+name: reserve-inventory
+items:
+  - ref: ./Reserve inventory for a confirmed order.request.yaml

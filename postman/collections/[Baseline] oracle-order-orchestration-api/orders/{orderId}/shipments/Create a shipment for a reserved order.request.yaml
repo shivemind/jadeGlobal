@@ -1,0 +1,38 @@
+type: http
+name: Create a shipment for a reserved order
+url: '{{baseUrl}}/orders/:orderId/shipments'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: orderId
+    value: fc88fe3b-0381-5108-41d9-c5ac1ce1ca84
+body:
+  type: json
+  content: |-
+    {
+      "carrier": "string",
+      "shipFrom": "string",
+      "trackingReference": "string"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "shipmentId": "18f871a1-7c4f-759c-fe10-f556c894a816",
+            "carrier": "string",
+            "shipFrom": "string",
+            "trackingReference": "string",
+            "status": "created"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Shipment created
