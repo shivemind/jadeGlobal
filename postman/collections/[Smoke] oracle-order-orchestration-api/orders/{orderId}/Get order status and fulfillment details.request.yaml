@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: orderId
-    value: 3d6532a1-8820-0d9b-3294-84614cd5d6cc
+    value: 4a203215-b00f-0cdd-3cb9-c60bf4053cf3
 scripts:
   - type: afterResponse
     code:
@@ -34,41 +34,41 @@ examples:
         type: json
         content: |-
           {
-            "id": "6058fdf3-47d3-0489-bf8b-9d4ad95d7866",
+            "id": "c670e324-6f6a-82e6-f8ef-3cc8ab207d9f",
             "customerId": "string",
             "sourceSystem": "string",
-            "orderDate": "1998-04-17",
+            "orderDate": "2017-01-16",
             "currency": "string",
             "status": "partially_shipped",
-            "totalAmount": 5548.702138277066,
+            "totalAmount": 9969.757307969978,
             "lineItems": [
               {
                 "sku": "string",
-                "quantity": 5548,
-                "unitPrice": 2500.509762412495,
+                "quantity": 5699,
+                "unitPrice": 983.3441243313313,
                 "warehouseCode": "string"
               },
               {
                 "sku": "string",
-                "quantity": 9478,
-                "unitPrice": 4319.431157817652,
+                "quantity": 4983,
+                "unitPrice": 1718.7657077445206,
                 "warehouseCode": "string"
               }
             ],
             "shipments": [
               {
-                "shipmentId": "4900922b-eeeb-47b3-2cb7-8a787c641ea5",
-                "carrier": "string",
-                "shipFrom": "string",
-                "trackingReference": "string",
-                "status": "created"
-              },
-              {
-                "shipmentId": "42e2d6e2-3d65-a4fc-6c17-92460e1c282b",
+                "shipmentId": "f3eacffc-b0d1-de0d-4da5-655a58db6c6a",
                 "carrier": "string",
                 "shipFrom": "string",
                 "trackingReference": "string",
                 "status": "delivered"
+              },
+              {
+                "shipmentId": "33d04d99-b901-080e-a835-84564b5f04d1",
+                "carrier": "string",
+                "shipFrom": "string",
+                "trackingReference": "string",
+                "status": "created"
               }
             ]
           }
@@ -85,7 +85,7 @@ examples:
           {
             "error": "string",
             "message": "string",
-            "statusCode": 4242
+            "statusCode": 3498
           }
       headers:
         - key: Content-Type
