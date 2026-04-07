@@ -1,0 +1,4 @@
+type: folder
+name: test-suites
+items:
+  - ref: ./List available automated test suites.request.yaml
