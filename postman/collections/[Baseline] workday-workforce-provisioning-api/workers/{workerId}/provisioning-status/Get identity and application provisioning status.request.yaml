@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: workerId
-    value: 061f3bb9-b6c0-1fc8-bb63-ba756c2f4f71
+    value: 2831a0c1-26b5-8f21-9b30-2d795eedcb9f
 examples:
   - response:
       statusCode: 200
@@ -16,17 +16,17 @@ examples:
         type: json
         content: |-
           {
-            "workerId": "13630181-6e29-00bd-e7d8-0c4625190613",
-            "identityStatus": "failed",
-            "laptopStatus": "in_progress",
+            "workerId": "2a300580-1493-939f-def8-30685fe3cc6a",
+            "identityStatus": "in_progress",
+            "laptopStatus": "completed",
             "applicationAccess": [
               {
                 "systemName": "string",
-                "status": "not_started"
+                "status": "failed"
               },
               {
                 "systemName": "string",
-                "status": "completed"
+                "status": "failed"
               }
             ]
           }

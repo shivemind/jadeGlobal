@@ -13,9 +13,9 @@ body:
     {
       "firstName": "string",
       "lastName": "string",
-      "workEmail": "upCudq@BCqL.zl",
+      "workEmail": "EkdPL5RL0c6mL@EdXBDyPygTHuYgsxapXcj.mm",
       "department": "string",
-      "startDate": "1993-12-16",
+      "startDate": "1980-10-07",
       "managerId": "string",
       "location": "string",
       "employmentType": "employee"
@@ -28,13 +28,13 @@ examples:
         type: json
         content: |-
           {
-            "workerId": "a76af1ed-c8c5-53a4-d697-6c2d2986d47f",
+            "workerId": "03d98bb9-acfc-6d05-fece-adb84df3211e",
             "employeeNumber": "string",
-            "status": "prehire",
+            "status": "terminated",
             "department": "string",
             "location": "string",
-            "startDate": "1997-09-17",
-            "onboardingState": "completed"
+            "startDate": "1999-09-16",
+            "onboardingState": "initiated"
           }
       headers:
         - key: Content-Type
