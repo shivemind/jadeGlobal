@@ -344,7 +344,7 @@ jobs:
               response=$(curl -s -w "\n%{http_code}" \
                 -X POST "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
                 -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
-                -H "x-entity-team-id: 14738775" \
+                -H "x-entity-team-id: 13569807" \
                 -H "Content-Type: application/json" \
                 -d "{
                   \"service\": \"api-catalog\",
@@ -375,7 +375,7 @@ jobs:
             response=$(curl -s -w "\n%{http_code}" \
               -X POST "https://bifrost-premium-https-v4.gw.postman.com/ws/proxy" \
               -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
-              -H "x-entity-team-id: 14738775" \
+              -H "x-entity-team-id: 13569807" \
               -H "Content-Type: application/json" \
               -d "{
                 \"service\": \"api-catalog\",
@@ -417,7 +417,7 @@ jobs:
           INPUT_POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
           INPUT_POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
           INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_POSTMAN_TEAM_ID: "14738775"
+          INPUT_POSTMAN_TEAM_ID: "13569807"
           INPUT_POLL_TIMEOUT_SECONDS: "120"
           INPUT_POLL_INTERVAL_SECONDS: "10"
         with:
@@ -428,7 +428,7 @@ jobs:
           system-environment-id: ${{ steps.provision_system_env.outputs.system_env_id }}
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          postman-team-id: "14738775"
+          postman-team-id: "13569807"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Postman reports
