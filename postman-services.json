@@ -233,8 +233,8 @@
         "salesforce-revenue-onboarding-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "53720583-ec294bea-d2bc-427c-bfcf-32a5d53ff6de",
+        "stage": "53720583-74f9dad0-04cc-495c-b06e-4b8474f5cc0f"
       }
     },
     {
