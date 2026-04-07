@@ -38,10 +38,10 @@ examples:
         content: |-
           {
             "id": "string",
-            "amount": 6156.434150601795,
+            "amount": 5162.507735241142,
             "currency": "string",
-            "status": "completed",
-            "createdAt": "1953-09-29T10:36:42.773Z"
+            "status": "failed",
+            "createdAt": "1991-02-12T09:20:42.195Z"
           }
       headers:
         - key: Content-Type

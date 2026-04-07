@@ -79,17 +79,17 @@ examples:
           [
             {
               "id": "string",
-              "amount": 4376.124312621059,
+              "amount": 6123.271251166151,
               "currency": "string",
-              "status": "failed",
-              "createdAt": "1994-02-01T17:29:14.423Z"
+              "status": "pending",
+              "createdAt": "2014-05-17T10:03:28.156Z"
             },
             {
               "id": "string",
-              "amount": 8350.095075591471,
+              "amount": 923.8388045496527,
               "currency": "string",
               "status": "pending",
-              "createdAt": "1979-01-31T17:49:35.805Z"
+              "createdAt": "1975-10-25T19:09:10.120Z"
             }
           ]
       headers:

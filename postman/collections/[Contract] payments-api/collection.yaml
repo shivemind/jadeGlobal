@@ -2,10 +2,11 @@ $schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
 type: collection
 name: '[Contract] payments-api'
 description: Core banking payments service
-id: 142fecb4-9c04-41dd-921c-464044270cde
+id: f2cd2916-6862-47e3-b24f-159f41010b64
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/payments
+    type: any
 items:
   - ref: ./payments/folder.yaml
   - ref: ./00 - Resolve Secrets.request.yaml
