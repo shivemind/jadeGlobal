@@ -1,0 +1,48 @@
+type: http
+name: Get status and metrics for a test run
+url: '{{baseUrl}}/test-runs/:runId'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: runId
+    value: 96210d9c-7c5a-708e-d4a3-dad9104c6930
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "runId": "62a3cb15-0cf8-cf47-334c-7fdb5cfbe204",
+            "suiteId": "b9b6b242-c756-16a0-49ad-ff4e53eb40ae",
+            "status": "running",
+            "environment": "string",
+            "releaseVersion": "string",
+            "startedAt": "2007-04-07T12:44:39.013Z",
+            "finishedAt": "1993-10-25T12:58:23.447Z",
+            "passedCount": 8144,
+            "failedCount": 1347,
+            "flakyCount": 1711
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Test run details
+  - response:
+      statusCode: 404
+      statusText: Not Found
+      body:
+        type: json
+        content: |-
+          {
+            "error": "string",
+            "message": "string",
+            "statusCode": 3348
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Test run not found

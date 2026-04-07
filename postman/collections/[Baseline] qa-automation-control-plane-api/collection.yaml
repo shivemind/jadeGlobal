@@ -1,0 +1,12 @@
+$schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
+type: collection
+name: '[Baseline] qa-automation-control-plane-api'
+description: |
+  Sample API for triggering, tracking, and reporting enterprise QA automation runs across applications, environments, and release trains.
+id: 315b21a4-db25-4532-ae46-12fe4cabaeaf
+variables:
+  - key: baseUrl
+    value: https://stage-api.example.com/qa-control
+items:
+  - ref: ./test-suites/folder.yaml
+  - ref: ./test-runs/folder.yaml

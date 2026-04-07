@@ -1,0 +1,60 @@
+type: http
+name: Trigger an automation run for a given suite and environment
+url: '{{baseUrl}}/test-runs'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "suiteId": "b61d7540-e440-2d2b-d812-2bfde7a055e7",
+      "environment": "qa",
+      "releaseVersion": "string",
+      "triggeredBy": "string",
+      "runMode": "regression"
+    }
+scripts:
+  - type: afterResponse
+    code:
+      - // [Smoke] Auto-generated test assertions
+      - pm.test('Status code is successful (2xx)', function () {
+      - '    pm.response.to.be.success;'
+      - '});'
+      - pm.test('Response time is acceptable', function () {
+      - '    var threshold = parseInt(pm.environment.get(''RESPONSE_TIME_THRESHOLD'') || ''2000'', 10);'
+      - '    pm.expect(pm.response.responseTime).to.be.below(threshold);'
+      - '});'
+      - pm.test('Response body is not empty', function () {
+      - '    if (pm.response.code !== 204) {'
+      - '        var body = pm.response.text();'
+      - '        pm.expect(body.length).to.be.above(0);'
+      - '    }'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "runId": "4cd20331-2414-0f66-ca81-e402dae81c8f",
+            "suiteId": "5f23982f-3f32-9038-446f-99dfe1b68b5f",
+            "status": "running",
+            "environment": "string",
+            "releaseVersion": "string",
+            "startedAt": "1960-09-26T14:06:07.123Z",
+            "finishedAt": "2012-08-10T09:38:50.122Z",
+            "passedCount": 2971,
+            "failedCount": 2419,
+            "flakyCount": 7204
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Test run started

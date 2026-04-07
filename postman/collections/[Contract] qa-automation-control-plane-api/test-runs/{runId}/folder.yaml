@@ -1,0 +1,5 @@
+type: folder
+name: '{runId}'
+items:
+  - ref: ./report/folder.yaml
+  - ref: ./Get status and metrics for a test run.request.yaml
