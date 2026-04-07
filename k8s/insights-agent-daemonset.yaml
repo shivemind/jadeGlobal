@@ -75,7 +75,7 @@ spec:
               name: postman-agent-secrets
               key: postman-api-key
         - name: POSTMAN_INSIGHTS_WORKSPACE_ID
-          value: "26eadf3c-acc8-40d3-aa89-b5df9f5af6af"
+          value: "9398de6d-7c25-4945-a52c-fee90d56f8ff"
         - name: POSTMAN_INSIGHTS_VERIFICATION_TOKEN
           value: "tvt_2A98gFU0j1F87P04RPEitH"
         - name: POSTMAN_INSIGHTS_K8S_NODE
