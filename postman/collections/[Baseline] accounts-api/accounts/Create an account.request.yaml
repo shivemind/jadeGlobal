@@ -1,0 +1,43 @@
+type: http
+name: Create an account
+url: '{{baseUrl}}/accounts'
+method: POST
+headers:
+  - key: traceparent
+    value: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+    description: W3C Trace Context header for distributed tracing. Format `00-<32-hex-trace-id>-<16-hex-span-id>-01`.
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "string",
+      "type": "savings",
+      "currency": "string"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "id": "string",
+            "name": "string",
+            "type": "savings",
+            "balance": 8763.639059857402,
+            "currency": "string",
+            "status": "closed",
+            "createdAt": "1992-04-22T04:55:46.248Z"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+        - key: traceparent
+          value: ''
+          disabled: false
+    name: Created
