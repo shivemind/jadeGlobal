@@ -1,0 +1,56 @@
+type: http
+name: Request downstream app access for a worker
+url: '{{baseUrl}}/workers/:workerId/access-requests'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: workerId
+    value: 91d68c82-9c05-9afc-8f5d-427561445eb7
+body:
+  type: json
+  content: |-
+    {
+      "systemName": "salesforce",
+      "roleName": "string",
+      "justification": "string",
+      "requestedBy": "string"
+    }
+scripts:
+  - type: afterResponse
+    code:
+      - // [Smoke] Auto-generated test assertions
+      - pm.test('Status code is successful (2xx)', function () {
+      - '    pm.response.to.be.success;'
+      - '});'
+      - pm.test('Response time is acceptable', function () {
+      - '    var threshold = parseInt(pm.environment.get(''RESPONSE_TIME_THRESHOLD'') || ''2000'', 10);'
+      - '    pm.expect(pm.response.responseTime).to.be.below(threshold);'
+      - '});'
+      - pm.test('Response body is not empty', function () {
+      - '    if (pm.response.code !== 204) {'
+      - '        var body = pm.response.text();'
+      - '        pm.expect(body.length).to.be.above(0);'
+      - '    }'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "ticketId": "7bd50d39-4530-965c-d9b8-ef8884cff8df",
+            "workerId": "f54c649a-a3c2-1c97-edf1-03b84425a2ea",
+            "systemName": "string",
+            "status": "queued"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Access request created

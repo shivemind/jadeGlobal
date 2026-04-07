@@ -1,0 +1,4 @@
+type: folder
+name: provisioning-status
+items:
+  - ref: ./Get identity and application provisioning status.request.yaml

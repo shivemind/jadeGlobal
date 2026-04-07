@@ -1,0 +1,12 @@
+$schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
+type: collection
+name: '[Smoke] workday-workforce-provisioning-api'
+description: |
+  Sample API for worker onboarding and downstream provisioning across HR, identity, and application access workflows.
+id: 731d67ce-8146-40eb-86c6-409ec5505eb6
+variables:
+  - key: baseUrl
+    value: https://stage-api.example.com/workforce
+items:
+  - ref: ./workers/folder.yaml
+  - ref: ./00 - Resolve Secrets.request.yaml

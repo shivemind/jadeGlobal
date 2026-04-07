@@ -1,0 +1,5 @@
+type: folder
+name: workers
+items:
+  - ref: ./{workerId}/folder.yaml
+  - ref: ./Create a worker profile and initiate onboarding.request.yaml

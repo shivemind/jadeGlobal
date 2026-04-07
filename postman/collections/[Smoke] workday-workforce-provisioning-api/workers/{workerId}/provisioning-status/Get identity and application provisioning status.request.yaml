@@ -1,0 +1,54 @@
+type: http
+name: Get identity and application provisioning status
+url: '{{baseUrl}}/workers/:workerId/provisioning-status'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: workerId
+    value: 91d68c82-9c05-9afc-8f5d-427561445eb7
+scripts:
+  - type: afterResponse
+    code:
+      - // [Smoke] Auto-generated test assertions
+      - pm.test('Status code is successful (2xx)', function () {
+      - '    pm.response.to.be.success;'
+      - '});'
+      - pm.test('Response time is acceptable', function () {
+      - '    var threshold = parseInt(pm.environment.get(''RESPONSE_TIME_THRESHOLD'') || ''2000'', 10);'
+      - '    pm.expect(pm.response.responseTime).to.be.below(threshold);'
+      - '});'
+      - pm.test('Response body is not empty', function () {
+      - '    if (pm.response.code !== 204) {'
+      - '        var body = pm.response.text();'
+      - '        pm.expect(body.length).to.be.above(0);'
+      - '    }'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "workerId": "4e76d58a-a020-ea05-e831-708dd088f42b",
+            "identityStatus": "completed",
+            "laptopStatus": "completed",
+            "applicationAccess": [
+              {
+                "systemName": "string",
+                "status": "in_progress"
+              },
+              {
+                "systemName": "string",
+                "status": "in_progress"
+              }
+            ]
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Provisioning state
