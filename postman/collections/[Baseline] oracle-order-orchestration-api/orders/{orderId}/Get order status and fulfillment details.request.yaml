@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: orderId
-    value: fc88fe3b-0381-5108-41d9-c5ac1ce1ca84
+    value: 5eb77709-2010-2a04-e74a-abb2328f9844
 examples:
   - response:
       statusCode: 200
@@ -16,41 +16,41 @@ examples:
         type: json
         content: |-
           {
-            "id": "80f86529-b93d-1033-a815-bedd45ba8222",
+            "id": "f01a978f-ad72-520c-c8a7-a4fad091bac4",
             "customerId": "string",
             "sourceSystem": "string",
-            "orderDate": "2023-08-08",
+            "orderDate": "2024-04-28",
             "currency": "string",
-            "status": "shipped",
-            "totalAmount": 7436.22514632908,
+            "status": "confirmed",
+            "totalAmount": 5931.791825195398,
             "lineItems": [
               {
                 "sku": "string",
-                "quantity": 6712,
-                "unitPrice": 6117.009442180721,
+                "quantity": 430,
+                "unitPrice": 4820.358347284195,
                 "warehouseCode": "string"
               },
               {
                 "sku": "string",
-                "quantity": 4202,
-                "unitPrice": 2074.45779030903,
+                "quantity": 1311,
+                "unitPrice": 6024.4892346386505,
                 "warehouseCode": "string"
               }
             ],
             "shipments": [
               {
-                "shipmentId": "5b27da4d-5230-17bb-d41c-184a590290d4",
+                "shipmentId": "c97eaeb3-c8ae-f640-96ec-a0f3d22b589d",
                 "carrier": "string",
                 "shipFrom": "string",
                 "trackingReference": "string",
                 "status": "created"
               },
               {
-                "shipmentId": "e1934a28-b099-a98f-b6f1-4c175500036e",
+                "shipmentId": "5f000bbe-9ce5-0e49-fa37-00b3c9a5dec9",
                 "carrier": "string",
                 "shipFrom": "string",
                 "trackingReference": "string",
-                "status": "shipped"
+                "status": "created"
               }
             ]
           }
@@ -67,7 +67,7 @@ examples:
           {
             "error": "string",
             "message": "string",
-            "statusCode": 2492
+            "statusCode": 9924
           }
       headers:
         - key: Content-Type

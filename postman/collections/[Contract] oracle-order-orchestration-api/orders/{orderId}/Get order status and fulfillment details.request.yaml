@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: orderId
-    value: 92db4e92-90e6-cbc4-b6ea-5752caf7698a
+    value: 611d10d1-2aca-f676-2e2b-cbc2d04abb92
 scripts:
   - type: afterResponse
     code:
@@ -77,37 +77,37 @@ examples:
         type: json
         content: |-
           {
-            "id": "78ddf788-850e-aff9-82db-90967874c98e",
+            "id": "34abba88-ecd5-bf96-8fcd-92a4a46d6e4c",
             "customerId": "string",
             "sourceSystem": "string",
-            "orderDate": "2003-11-16",
+            "orderDate": "1978-10-12",
             "currency": "string",
-            "status": "cancelled",
-            "totalAmount": 35.81238664121411,
+            "status": "shipped",
+            "totalAmount": 1405.3327576165352,
             "lineItems": [
               {
                 "sku": "string",
-                "quantity": 5281,
-                "unitPrice": 2327.1823351052467,
+                "quantity": 5216,
+                "unitPrice": 5602.955649430508,
                 "warehouseCode": "string"
               },
               {
                 "sku": "string",
-                "quantity": 7967,
-                "unitPrice": 4133.267953537603,
+                "quantity": 9076,
+                "unitPrice": 9426.555835779365,
                 "warehouseCode": "string"
               }
             ],
             "shipments": [
               {
-                "shipmentId": "97a8fa58-6f5a-10ad-eaf1-bae49ade2aa5",
+                "shipmentId": "811c6ab5-de3a-7b06-2392-c8d20ecc9cae",
                 "carrier": "string",
                 "shipFrom": "string",
                 "trackingReference": "string",
                 "status": "packed"
               },
               {
-                "shipmentId": "f73ed8c6-678b-ed3a-6cd5-e7e504edf717",
+                "shipmentId": "2075450f-ecfc-56b3-f2b1-dc490615a076",
                 "carrier": "string",
                 "shipFrom": "string",
                 "trackingReference": "string",
@@ -128,7 +128,7 @@ examples:
           {
             "error": "string",
             "message": "string",
-            "statusCode": 3217
+            "statusCode": 750
           }
       headers:
         - key: Content-Type
