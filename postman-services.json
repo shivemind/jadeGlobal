@@ -1,5 +1,5 @@
 {
-  "system_env": "936898ce-cf73-4feb-827e-8a0e9d5e695e",
+  "system_env": "",
   "insights_agent_namespace": "postman-insights-namespace",
   "k8s_namespace": "jade-global",
   "dependency_graph": {
@@ -71,11 +71,11 @@
       "version": "1.4.2",
       "spec_path": "openapi/payments-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/payments-api.yaml",
-      "workspace_id": "d492f7af-fffb-47f9-a3cf-39a390fd5215",
-      "spec_id": "ebd9aa4c-6de2-4445-8571-ef8c79db3e07",
-      "baseline_collection_id": "52400725-304cdb7e-47f5-4fe8-8c63-2ca009fa258f",
-      "smoke_collection_id": "52400725-50c20e3e-d5c4-4c47-a737-c3811ccf20ad",
-      "contract_collection_id": "52400725-83154473-4472-47a7-a0e5-81444c979030",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -93,8 +93,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "52400725-edacc919-912e-4ac3-a263-9c30cfd6f0be",
-        "stage": "52400725-f62a9ddc-2ca9-40c5-b436-acee99e3f0b6"
+        "prod": "",
+        "stage": ""
       }
     },
     {
@@ -106,11 +106,11 @@
       "version": "2.1.0",
       "spec_path": "openapi/accounts-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/accounts-api.yaml",
-      "workspace_id": "6041b3e0-938f-4f44-8f36-adae2f9b4875",
-      "spec_id": "a216389d-e345-4a51-8984-ca0e6965b4c9",
-      "baseline_collection_id": "52400725-55eb4959-0fa0-4323-9fe9-a2b74ff32fb7",
-      "smoke_collection_id": "52400725-2ee9fbfe-5fdf-45f8-bf7c-11266a609ed5",
-      "contract_collection_id": "52400725-776aa3e2-a99d-4803-857c-0aa9264d4dea",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -126,8 +126,8 @@
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
       "dependencies": [],
       "environment_uids": {
-        "prod": "52400725-b639f2e7-35a7-4b45-8977-d98962df8791",
-        "stage": "52400725-b9699c98-fd19-4935-bc5d-510e8010e6ba"
+        "prod": "",
+        "stage": ""
       }
     },
     {
@@ -139,11 +139,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/oracle-order-orchestration-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/oracle-order-orchestration-api.yaml",
-      "workspace_id": "3647b044-3206-4fba-822e-273cce143655",
-      "spec_id": "a31cbfab-e29d-4067-b8cb-9b51f3f338b0",
-      "baseline_collection_id": "52400725-656d5922-1ef9-43b7-b28f-7f2c07ad9461",
-      "smoke_collection_id": "52400725-ea4b0627-0524-47cc-bbd2-f292e3ee3173",
-      "contract_collection_id": "52400725-0091afca-1094-4102-a789-8be91340e0f2",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -162,8 +162,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "52400725-aad05204-e054-4df2-bb72-7a909673160a",
-        "stage": "52400725-2577e511-616a-49fc-8a4b-23e288394a96"
+        "prod": "",
+        "stage": ""
       }
     },
     {
@@ -175,11 +175,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/salesforce-revenue-onboarding-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/salesforce-revenue-onboarding-api.yaml",
-      "workspace_id": "475b8485-172b-4370-84b7-9ae33f2048b1",
-      "spec_id": "ead8c08f-14ab-4df0-b1c6-42cd749fdf6b",
-      "baseline_collection_id": "52400725-0fbf2e0f-53c1-44b2-a6f3-bb422c957f80",
-      "smoke_collection_id": "52400725-33e6179b-74c2-4102-802e-b4b821d476e7",
-      "contract_collection_id": "52400725-9973d5e6-a5ba-4579-b9f6-8edb2fda6ca4",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -198,8 +198,8 @@
         "workday-workforce-provisioning-api"
       ],
       "environment_uids": {
-        "prod": "52400725-6beee7d3-58d0-4897-88da-f951939254d5",
-        "stage": "52400725-92a6580a-4194-430d-92c9-308cd484e22e"
+        "prod": "",
+        "stage": ""
       }
     },
     {
@@ -211,11 +211,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/workday-workforce-provisioning-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/workday-workforce-provisioning-api.yaml",
-      "workspace_id": "48f13bfa-7779-4997-8fb3-79724a14f32f",
-      "spec_id": "fa5bf625-46aa-43ec-a299-f7b64752a9c7",
-      "baseline_collection_id": "52400725-308aea27-eb93-44b5-9e83-fe3ab3f14152",
-      "smoke_collection_id": "52400725-4ea101c8-e4d9-47ed-99ca-4a12a04eaced",
-      "contract_collection_id": "52400725-bd38ea8a-8aef-4855-b06e-6a9a4a043774",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -233,8 +233,8 @@
         "salesforce-revenue-onboarding-api"
       ],
       "environment_uids": {
-        "prod": "52400725-2a35ab82-c85e-4f53-a9c7-9c67c2928626",
-        "stage": "52400725-d9f309d4-ce1d-4bae-be50-b8cc4dd0f42f"
+        "prod": "",
+        "stage": ""
       }
     },
     {
@@ -246,11 +246,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/qa-automation-control-plane-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/qa-automation-control-plane-api.yaml",
-      "workspace_id": "26eadf3c-acc8-40d3-aa89-b5df9f5af6af",
-      "spec_id": "c0426783-7eee-47fd-b388-9b92ac0813a7",
-      "baseline_collection_id": "52400725-8f2c528b-e5d8-499f-a0b7-6c6cddf9ce0e",
-      "smoke_collection_id": "52400725-2f7a1514-5edd-4280-9dc5-2ac16b20e5d0",
-      "contract_collection_id": "52400725-7d30d23d-13a3-4bab-b092-66a160caea7c",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -272,8 +272,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "52400725-a0fe2204-8c6b-463b-8b51-2ed5155337bd",
-        "stage": "52400725-ccdb8d4b-3813-4282-8e34-aac60c2d833e"
+        "prod": "",
+        "stage": ""
       }
     }
   ]

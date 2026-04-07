@@ -34,6 +34,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: ""
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service
@@ -78,6 +80,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: "http://accounts-api.jade-global.svc.cluster.local/accounts"
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service
@@ -122,6 +126,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: "http://payments-api.jade-global.svc.cluster.local/payments,http://accounts-api.jade-global.svc.cluster.local/accounts"
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service
@@ -166,6 +172,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: "http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/leads"
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service
@@ -180,9 +188,6 @@ spec:
     targetPort: 8080
 ---
 # ─── salesforce-revenue-onboarding-api → oracle, workday ───
-# Note: workday also calls salesforce (bidirectional). To avoid infinite
-# loops, salesforce only calls oracle and workday on the /close-won path,
-# and workday only calls salesforce on the /access-requests path.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -213,6 +218,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: "http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders,http://workday-workforce-provisioning-api.jade-global.svc.cluster.local/workers"
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service
@@ -257,6 +264,8 @@ spec:
           value: "8080"
         - name: DOWNSTREAM_URLS
           value: "http://oracle-order-orchestration-api.jade-global.svc.cluster.local/orders,http://salesforce-revenue-onboarding-api.jade-global.svc.cluster.local/leads,http://workday-workforce-provisioning-api.jade-global.svc.cluster.local/workers,http://payments-api.jade-global.svc.cluster.local/payments,http://accounts-api.jade-global.svc.cluster.local/accounts"
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
 ---
 apiVersion: v1
 kind: Service

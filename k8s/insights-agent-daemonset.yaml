@@ -36,7 +36,7 @@ roleRef:
   name: postman-insights-read-only-role
   apiGroup: rbac.authorization.k8s.io
 ---
-# Create daemonset for running agent
+# Create daemonset for running agent (Discovery Mode)
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -53,12 +53,19 @@ spec:
     spec:
       serviceAccountName: postman-insights-service-account
       automountServiceAccountToken: true
+      hostPID: true
       containers:
-      - args:
+      - name: postman-insights-agent
+        image: public.ecr.aws/postman/postman-insights-agent:latest
+        imagePullPolicy: Always
+        args:
         - kube
         - run
         - --discovery-mode
         - --repro-mode
+        - --debug
+        - --include-namespaces
+        - jade-global
         env:
         - name: POSTMAN_INSIGHTS_CLUSTER_NAME
           value: "jade-global-cluster"
@@ -67,22 +74,25 @@ spec:
             secretKeyRef:
               name: postman-agent-secrets
               key: postman-api-key
+        - name: POSTMAN_INSIGHTS_WORKSPACE_ID
+          value: "26eadf3c-acc8-40d3-aa89-b5df9f5af6af"
+        - name: POSTMAN_INSIGHTS_VERIFICATION_TOKEN
+          value: "tvt_2A98gFU0j1F87P04RPEitH"
         - name: POSTMAN_INSIGHTS_K8S_NODE
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
         - name: POSTMAN_INSIGHTS_CRI_ENDPOINT
           value: /var/run/containerd/containerd.sock
-        image: public.ecr.aws/postman/postman-insights-agent:latest
-        imagePullPolicy: Always
-        name: postman-insights-agent
+        - name: POSTMAN_INSIGHTS_SYSTEM_ENV
+          value: "936898ce-cf73-4feb-827e-8a0e9d5e695e"
         resources:
           requests:
             cpu: 200m
             memory: 500Mi
           limits:
-            cpu: 200m
-            memory: 500Mi
+            cpu: "1"
+            memory: 3Gi
         securityContext:
           capabilities:
             add:
@@ -107,11 +117,11 @@ spec:
       - name: host-procfs
         hostPath:
           path: /proc
-          type: Directory    
+          type: Directory
       - name: host-netns
         hostPath:
           path: /var/run/netns
-          type: Directory    
+          type: Directory
       - name: containerdsocket
         hostPath:
           path: /var/run/containerd/containerd.sock
