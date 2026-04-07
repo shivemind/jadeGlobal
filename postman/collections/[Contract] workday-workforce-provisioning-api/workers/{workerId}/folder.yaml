@@ -1,0 +1,6 @@
+type: folder
+name: '{workerId}'
+items:
+  - ref: ./access-requests/folder.yaml
+  - ref: ./provisioning-status/folder.yaml
+  - ref: ./Get worker profile and onboarding state.request.yaml

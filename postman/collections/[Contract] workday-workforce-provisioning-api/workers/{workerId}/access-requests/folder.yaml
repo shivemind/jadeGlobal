@@ -1,0 +1,4 @@
+type: folder
+name: access-requests
+items:
+  - ref: ./Request downstream app access for a worker.request.yaml
