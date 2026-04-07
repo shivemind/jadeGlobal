@@ -106,11 +106,11 @@
       "version": "2.1.0",
       "spec_path": "openapi/accounts-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/accounts-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "2e09cc35-4e20-41cd-b487-c1215eeefab4",
+      "spec_id": "2952cfc9-297f-4855-be0d-3bb4ea3d6924",
+      "baseline_collection_id": "52400725-ce97a481-ca4a-4959-82ac-22d57d0c4642",
+      "smoke_collection_id": "52400725-7bfd2138-22f2-45e7-a242-e5a9e5816b28",
+      "contract_collection_id": "52400725-fea7834c-8432-4b00-b45e-efef90a8c33d",
       "environments": [
         "prod",
         "stage"
@@ -125,7 +125,10 @@
       "k8s_port": 5002,
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
       "dependencies": [],
-      "environment_uids": {}
+      "environment_uids": {
+        "prod": "52400725-e71a8cdb-cda5-4070-9362-16f7db8443d1",
+        "stage": "52400725-5cd17063-cc2e-4f1b-a27f-2905a882e71e"
+      }
     },
     {
       "service_key": "oracle-order-orchestration-api",
