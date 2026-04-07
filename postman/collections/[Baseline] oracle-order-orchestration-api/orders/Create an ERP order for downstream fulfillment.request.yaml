@@ -1,0 +1,91 @@
+type: http
+name: Create an ERP order for downstream fulfillment
+url: '{{baseUrl}}/orders'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "customerId": "string",
+      "orderDate": "1962-06-20",
+      "currency": "USD",
+      "lineItems": [
+        {
+          "sku": "string",
+          "quantity": 4520,
+          "unitPrice": 7412.912544287477,
+          "warehouseCode": "string"
+        }
+      ],
+      "sourceSystem": "salesforce"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "id": "80f86529-b93d-1033-a815-bedd45ba8222",
+            "customerId": "string",
+            "sourceSystem": "string",
+            "orderDate": "2023-08-08",
+            "currency": "string",
+            "status": "shipped",
+            "totalAmount": 7436.22514632908,
+            "lineItems": [
+              {
+                "sku": "string",
+                "quantity": 6712,
+                "unitPrice": 6117.009442180721,
+                "warehouseCode": "string"
+              },
+              {
+                "sku": "string",
+                "quantity": 4202,
+                "unitPrice": 2074.45779030903,
+                "warehouseCode": "string"
+              }
+            ],
+            "shipments": [
+              {
+                "shipmentId": "5b27da4d-5230-17bb-d41c-184a590290d4",
+                "carrier": "string",
+                "shipFrom": "string",
+                "trackingReference": "string",
+                "status": "created"
+              },
+              {
+                "shipmentId": "e1934a28-b099-a98f-b6f1-4c175500036e",
+                "carrier": "string",
+                "shipFrom": "string",
+                "trackingReference": "string",
+                "status": "shipped"
+              }
+            ]
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Order created
+  - response:
+      statusCode: 400
+      statusText: Bad Request
+      body:
+        type: json
+        content: |-
+          {
+            "error": "string",
+            "message": "string",
+            "statusCode": 2492
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Invalid request

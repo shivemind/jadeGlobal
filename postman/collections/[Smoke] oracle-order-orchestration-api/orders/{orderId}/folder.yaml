@@ -1,0 +1,6 @@
+type: folder
+name: '{orderId}'
+items:
+  - ref: ./reserve-inventory/folder.yaml
+  - ref: ./shipments/folder.yaml
+  - ref: ./Get order status and fulfillment details.request.yaml

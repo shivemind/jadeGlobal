@@ -1,0 +1,12 @@
+$schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
+type: collection
+name: '[Contract] oracle-order-orchestration-api'
+description: |
+  Sample API for a Jade Global-style Oracle ERP and supply chain integration workflow. Designed to demonstrate cataloging, collaboration, testing, and governance in Postman Enterprise.
+id: aff5d42b-509e-487d-82a8-3368270d141d
+variables:
+  - key: baseUrl
+    value: https://stage-api.example.com/oracle-orders
+items:
+  - ref: ./orders/folder.yaml
+  - ref: ./00 - Resolve Secrets.request.yaml

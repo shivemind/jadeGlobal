@@ -1,0 +1,60 @@
+type: http
+name: Reserve inventory for a confirmed order
+url: '{{baseUrl}}/orders/:orderId/reserve-inventory'
+method: POST
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: orderId
+    value: 310926d5-edb1-7877-a11c-8e65734ec7a6
+scripts:
+  - type: afterResponse
+    code:
+      - // [Smoke] Auto-generated test assertions
+      - pm.test('Status code is successful (2xx)', function () {
+      - '    pm.response.to.be.success;'
+      - '});'
+      - pm.test('Response time is acceptable', function () {
+      - '    var threshold = parseInt(pm.environment.get(''RESPONSE_TIME_THRESHOLD'') || ''2000'', 10);'
+      - '    pm.expect(pm.response.responseTime).to.be.below(threshold);'
+      - '});'
+      - pm.test('Response body is not empty', function () {
+      - '    if (pm.response.code !== 204) {'
+      - '        var body = pm.response.text();'
+      - '        pm.expect(body.length).to.be.above(0);'
+      - '    }'
+      - '});'
+    language: text/javascript
+examples:
+  - response:
+      statusCode: 202
+      statusText: Accepted
+      body:
+        type: json
+        content: |-
+          {
+            "actionId": "4efc801b-9695-0b31-68bc-6aae8d930927",
+            "orderId": "9f5a56dc-3d1d-34ab-f654-842047342aef",
+            "status": "completed",
+            "message": "string"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Inventory reservation requested
+  - response:
+      statusCode: 409
+      statusText: Conflict
+      body:
+        type: json
+        content: |-
+          {
+            "error": "string",
+            "message": "string",
+            "statusCode": 8552
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Inventory cannot be reserved

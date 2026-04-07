@@ -1,0 +1,5 @@
+type: folder
+name: orders
+items:
+  - ref: ./{orderId}/folder.yaml
+  - ref: ./Create an ERP order for downstream fulfillment.request.yaml
