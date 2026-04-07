@@ -2,9 +2,9 @@ workspace:
   id: 9398de6d-7c25-4945-a52c-fee90d56f8ff
 localResources:
   collections:
-    - ../postman/collections/[Baseline] qa-automation-control-plane-api
-    - ../postman/collections/[Smoke] qa-automation-control-plane-api
-    - ../postman/collections/[Contract] qa-automation-control-plane-api
+    - ../postman/collections/[Baseline] workday-workforce-provisioning-api
+    - ../postman/collections/[Smoke] workday-workforce-provisioning-api
+    - ../postman/collections/[Contract] workday-workforce-provisioning-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
@@ -17,9 +17,9 @@ localResources:
     - ../openapi/workday-workforce-provisioning-api.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Baseline] qa-automation-control-plane-api: 53720583-6da5688d-e15a-4faf-be75-961fd77792f9
-    ../postman/collections/[Smoke] qa-automation-control-plane-api: 53720583-0c4edbfe-ba3e-4aa3-ab41-2c6c98fe886f
-    ../postman/collections/[Contract] qa-automation-control-plane-api: 53720583-9f312037-31e2-4859-ae9a-312837ebf726
+    ../postman/collections/[Baseline] workday-workforce-provisioning-api: 53720583-6da5688d-e15a-4faf-be75-961fd77792f9
+    ../postman/collections/[Smoke] workday-workforce-provisioning-api: 53720583-0c4edbfe-ba3e-4aa3-ab41-2c6c98fe886f
+    ../postman/collections/[Contract] workday-workforce-provisioning-api: 53720583-9f312037-31e2-4859-ae9a-312837ebf726
   environments:
-    ../postman/environments/prod.postman_environment.json: 53720583-db466d2f-6fd1-4160-aa01-d9208235c49c
-    ../postman/environments/stage.postman_environment.json: 53720583-fa7833ec-823c-4505-afc9-0f17a752476d
+    ../postman/environments/prod.postman_environment.json: 53720583-ec294bea-d2bc-427c-bfcf-32a5d53ff6de
+    ../postman/environments/stage.postman_environment.json: 53720583-74f9dad0-04cc-495c-b06e-4b8474f5cc0f
