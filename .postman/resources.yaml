@@ -1,10 +1,10 @@
 workspace:
-  id: 06014741-03c9-4784-b463-3608ab4a3892
+  id: f0461107-3973-42d5-b301-640a9637694e
 localResources:
   collections:
-    - ../postman/collections/[Baseline] salesforce-revenue-onboarding-api
-    - ../postman/collections/[Smoke] salesforce-revenue-onboarding-api
-    - ../postman/collections/[Contract] salesforce-revenue-onboarding-api
+    - ../postman/collections/[Baseline] workday-workforce-provisioning-api
+    - ../postman/collections/[Smoke] workday-workforce-provisioning-api
+    - ../postman/collections/[Contract] workday-workforce-provisioning-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
@@ -17,9 +17,9 @@ localResources:
     - ../openapi/workday-workforce-provisioning-api.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Baseline] salesforce-revenue-onboarding-api: 52400725-09aeebd0-6e85-4157-b4a4-5fa1b0fca511
-    ../postman/collections/[Smoke] salesforce-revenue-onboarding-api: 52400725-591c6e5c-fb86-43ea-a1c7-aa81dbdccfdc
-    ../postman/collections/[Contract] salesforce-revenue-onboarding-api: 52400725-efe09bf1-c5f3-4639-86e9-4d77eb15caff
+    ../postman/collections/[Baseline] workday-workforce-provisioning-api: 52400725-70beccb7-c1ea-446c-aaa9-24fbf1a35caf
+    ../postman/collections/[Smoke] workday-workforce-provisioning-api: 52400725-1f0800fb-b4b8-4d3a-9b8d-1874f7a0c35a
+    ../postman/collections/[Contract] workday-workforce-provisioning-api: 52400725-dba26d09-3f01-4e89-a29c-e8d378fc93a1
   environments:
-    ../postman/environments/prod.postman_environment.json: 52400725-dd05a92a-707e-4b22-8245-c49aa72b9c55
-    ../postman/environments/stage.postman_environment.json: 52400725-568bbc19-3390-4a13-8ffb-6392c3edbab6
+    ../postman/environments/prod.postman_environment.json: 52400725-c7ee764c-decf-47e0-acb3-322ed56b0dad
+    ../postman/environments/stage.postman_environment.json: 52400725-9b823067-800b-484b-9340-1e95d4c2be99

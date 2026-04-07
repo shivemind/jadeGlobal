@@ -13,12 +13,12 @@ body:
     {
       "firstName": "string",
       "lastName": "string",
-      "workEmail": "AADeeXpe3q31UC2@BKAqEPumSbogfOyXzErjEkiWWeE.nn",
+      "workEmail": "upCudq@BCqL.zl",
       "department": "string",
-      "startDate": "1966-03-02",
+      "startDate": "1993-12-16",
       "managerId": "string",
       "location": "string",
-      "employmentType": "contractor"
+      "employmentType": "employee"
     }
 examples:
   - response:
@@ -28,13 +28,13 @@ examples:
         type: json
         content: |-
           {
-            "workerId": "b7785983-4428-17ca-289e-3d8f51e7dc6c",
+            "workerId": "a76af1ed-c8c5-53a4-d697-6c2d2986d47f",
             "employeeNumber": "string",
-            "status": "active",
+            "status": "prehire",
             "department": "string",
             "location": "string",
-            "startDate": "1989-08-31",
-            "onboardingState": "provisioned"
+            "startDate": "1997-09-17",
+            "onboardingState": "completed"
           }
       headers:
         - key: Content-Type

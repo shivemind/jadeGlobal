@@ -3,10 +3,11 @@ type: collection
 name: '[Smoke] workday-workforce-provisioning-api'
 description: |
   Sample API for worker onboarding and downstream provisioning across HR, identity, and application access workflows.
-id: 731d67ce-8146-40eb-86c6-409ec5505eb6
+id: 1f0800fb-b4b8-4d3a-9b8d-1874f7a0c35a
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/workforce
+    type: any
 items:
   - ref: ./workers/folder.yaml
   - ref: ./00 - Resolve Secrets.request.yaml
