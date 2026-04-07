@@ -1,4 +1,0 @@
-type: folder
-name: report
-items:
-  - ref: ./Fetch a summary report for a completed run.request.yaml

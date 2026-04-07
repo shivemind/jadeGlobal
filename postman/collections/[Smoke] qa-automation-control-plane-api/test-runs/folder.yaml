@@ -1,5 +1,0 @@
-type: folder
-name: test-runs
-items:
-  - ref: ./{runId}/folder.yaml
-  - ref: ./Trigger an automation run for a given suite and environment.request.yaml

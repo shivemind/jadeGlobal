@@ -1,4 +1,0 @@
-type: folder
-name: leads
-items:
-  - ref: ./Capture a new inbound lead.request.yaml

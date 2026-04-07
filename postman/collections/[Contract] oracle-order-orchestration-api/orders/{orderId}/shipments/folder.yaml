@@ -1,4 +1,0 @@
-type: folder
-name: shipments
-items:
-  - ref: ./Create a shipment for a reserved order.request.yaml

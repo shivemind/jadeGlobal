@@ -1,4 +1,0 @@
-type: folder
-name: customers
-items:
-  - ref: ./{customerId}/folder.yaml

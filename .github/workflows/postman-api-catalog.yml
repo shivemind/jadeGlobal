@@ -295,8 +295,11 @@ jobs:
 
       - name: Persist workspace ID to manifest
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GH_FALLBACK_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git fetch origin main
           git reset --hard origin/main
           rm -rf .postman/resources.yaml

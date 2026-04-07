@@ -1,5 +1,0 @@
-type: folder
-name: opportunities
-items:
-  - ref: ./{opportunityId}/folder.yaml
-  - ref: ./Convert a qualified lead into an opportunity.request.yaml

@@ -1,4 +1,0 @@
-type: folder
-name: '{customerId}'
-items:
-  - ref: ./onboarding/folder.yaml
