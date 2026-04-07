@@ -175,11 +175,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/salesforce-revenue-onboarding-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/salesforce-revenue-onboarding-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "06014741-03c9-4784-b463-3608ab4a3892",
+      "spec_id": "c0b641f1-9cc1-4678-9fe8-12e5bf6c797a",
+      "baseline_collection_id": "52400725-09aeebd0-6e85-4157-b4a4-5fa1b0fca511",
+      "smoke_collection_id": "52400725-591c6e5c-fb86-43ea-a1c7-aa81dbdccfdc",
+      "contract_collection_id": "52400725-efe09bf1-c5f3-4639-86e9-4d77eb15caff",
       "environments": [
         "prod",
         "stage"
@@ -197,7 +197,10 @@
         "oracle-order-orchestration-api",
         "workday-workforce-provisioning-api"
       ],
-      "environment_uids": {}
+      "environment_uids": {
+        "prod": "52400725-dd05a92a-707e-4b22-8245-c49aa72b9c55",
+        "stage": "52400725-568bbc19-3390-4a13-8ffb-6392c3edbab6"
+      }
     },
     {
       "service_key": "workday-workforce-provisioning-api",
