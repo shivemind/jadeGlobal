@@ -15,17 +15,17 @@ examples:
           {
             "data": [
               {
-                "suiteId": "d20ba47f-3eef-7e6e-b5fb-d66e57155fb1",
+                "suiteId": "59c24283-3a74-11ff-1d10-3945ba5eef8e",
                 "name": "string",
                 "application": "string",
-                "type": "api",
+                "type": "ui",
                 "owner": "string"
               },
               {
-                "suiteId": "6cd42e7a-73ac-9dc6-76e9-1d640b271cbf",
+                "suiteId": "bc1397dc-48e4-7954-fe94-beebc25c0f56",
                 "name": "string",
                 "application": "string",
-                "type": "security",
+                "type": "api",
                 "owner": "string"
               }
             ]

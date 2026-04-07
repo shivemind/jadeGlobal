@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: runId
-    value: ae8297d5-50bd-42d8-1d51-4763f4ad23f4
+    value: c3857a1e-1b6c-45f8-4b7d-aab55edabeed
 examples:
   - response:
       statusCode: 200
@@ -16,16 +16,16 @@ examples:
         type: json
         content: |-
           {
-            "runId": "d8eeb4d0-f779-082c-0387-7e1d39964715",
-            "suiteId": "d48e87de-94b1-8a33-1368-c77ab14e637f",
-            "status": "queued",
+            "runId": "631080d8-b1be-53cb-0575-f4b93a33e9a6",
+            "suiteId": "ed50ed9d-e5f8-c601-c636-fc3b832807f3",
+            "status": "passed",
             "environment": "string",
             "releaseVersion": "string",
-            "startedAt": "1999-01-15T17:12:33.254Z",
-            "finishedAt": "2010-02-20T10:40:34.292Z",
-            "passedCount": 2959,
-            "failedCount": 3460,
-            "flakyCount": 3372
+            "startedAt": "2002-10-01T00:07:59.830Z",
+            "finishedAt": "1955-11-20T15:46:31.638Z",
+            "passedCount": 3882,
+            "failedCount": 8068,
+            "flakyCount": 7987
           }
       headers:
         - key: Content-Type
@@ -40,7 +40,7 @@ examples:
           {
             "error": "string",
             "message": "string",
-            "statusCode": 1112
+            "statusCode": 5977
           }
       headers:
         - key: Content-Type

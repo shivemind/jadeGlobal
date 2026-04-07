@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: runId
-    value: ae8297d5-50bd-42d8-1d51-4763f4ad23f4
+    value: c3857a1e-1b6c-45f8-4b7d-aab55edabeed
 examples:
   - response:
       statusCode: 200
@@ -16,8 +16,8 @@ examples:
         type: json
         content: |-
           {
-            "runId": "f1a28abc-40a3-1a4f-cc5d-d17e09a2ace6",
-            "qualityGate": "pass",
+            "runId": "c9c6663c-3359-e012-6a50-1d45de211849",
+            "qualityGate": "fail",
             "defectLeakageRisk": "low",
             "summary": "string",
             "topFailures": [
