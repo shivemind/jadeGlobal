@@ -77,7 +77,7 @@ jobs:
           echo "Prod env UID: ${prod_env_id}"
           echo "System env:   ${system_env}"
 
-      - name: Get verification token via Bifrost (akita)
+      - name: Get verification token via Bifrost premium (akita)
         id: get_token
         shell: bash
         env:
@@ -87,22 +87,26 @@ jobs:
           workspace_id="${{ steps.resolve.outputs.workspace_id }}"
 
           echo "Fetching team verification token for workspace ${workspace_id}..."
-          VERIFICATION_TOKEN=$(curl -sf \
-            "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
+          RAW=$(curl -s -w "\nHTTP_CODE:%{http_code}" \
+            "https://bifrost-premium-https-v4.gw.postman.com/ws/proxy" \
             -H "Content-Type: application/json" \
             -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
-            -d "{\"service\":\"akita\",\"method\":\"GET\",\"path\":\"/v2/workspaces/${workspace_id}/team-verification-token\",\"body\":{}}" \
-            | jq -r '.team_verification_token // empty' 2>/dev/null || true)
+            -d "{\"service\":\"akita\",\"method\":\"GET\",\"path\":\"/v2/workspaces/${workspace_id}/team-verification-token\",\"body\":{}}")
 
+          HTTP_CODE=$(echo "${RAW}" | grep "HTTP_CODE:" | sed 's/HTTP_CODE://')
+          BODY=$(echo "${RAW}" | sed '/HTTP_CODE:/d')
+          echo "HTTP ${HTTP_CODE}: ${BODY}"
+
+          VERIFICATION_TOKEN=$(echo "${BODY}" | jq -r '.team_verification_token // empty' 2>/dev/null || true)
           if [[ -n "${VERIFICATION_TOKEN}" ]]; then
             echo "Got verification token: ${VERIFICATION_TOKEN:0:10}..."
             echo "token=${VERIFICATION_TOKEN}" >> "${GITHUB_OUTPUT}"
           else
-            echo "::warning::Could not retrieve verification token"
+            echo "::warning::Could not retrieve verification token (HTTP ${HTTP_CODE})"
             echo "token=" >> "${GITHUB_OUTPUT}"
           fi
 
-      - name: Acknowledge workspace via Bifrost (akita)
+      - name: Acknowledge workspace via Bifrost premium (akita)
         id: acknowledge
         shell: bash
         env:
@@ -112,15 +116,16 @@ jobs:
           workspace_id="${{ steps.resolve.outputs.workspace_id }}"
 
           echo "Acknowledging workspace ${workspace_id}..."
-          ACK_RESULT=$(curl -sf \
-            "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
+          RAW=$(curl -s -w "\nHTTP_CODE:%{http_code}" \
+            "https://bifrost-premium-https-v4.gw.postman.com/ws/proxy" \
             -H "Content-Type: application/json" \
             -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
             -X POST \
-            -d "{\"service\":\"akita\",\"method\":\"POST\",\"path\":\"/v2/workspaces/${workspace_id}/onboarding/acknowledge\",\"body\":{}}" \
-            2>/dev/null || echo '{"error":"failed"}')
+            -d "{\"service\":\"akita\",\"method\":\"POST\",\"path\":\"/v2/workspaces/${workspace_id}/onboarding/acknowledge\",\"body\":{}}")
 
-          echo "Acknowledge result: ${ACK_RESULT}"
+          HTTP_CODE=$(echo "${RAW}" | grep "HTTP_CODE:" | sed 's/HTTP_CODE://')
+          BODY=$(echo "${RAW}" | sed '/HTTP_CODE:/d')
+          echo "Acknowledge HTTP ${HTTP_CODE}: ${BODY}"
           echo "ack_status=done" >> "${GITHUB_OUTPUT}"
 
       - name: Create application binding (observability API)
@@ -134,16 +139,17 @@ jobs:
           system_env="${{ steps.resolve.outputs.system_env }}"
 
           echo "Creating application binding: workspace=${workspace_id} system_env=${system_env}"
-          APP_RESULT=$(curl -sf \
+          RAW=$(curl -s -w "\nHTTP_CODE:%{http_code}" \
             "https://api.observability.postman.com/v2/agent/api-catalog/workspaces/${workspace_id}/applications" \
             -H "Content-Type: application/json" \
             -H "x-api-key: ${POSTMAN_API_KEY}" \
             -H "x-postman-env: production" \
             -X POST \
-            -d "{\"system_env\":\"${system_env}\"}" \
-            2>/dev/null || echo '{"error":"failed"}')
+            -d "{\"system_env\":\"${system_env}\"}")
 
-          echo "Application binding result: ${APP_RESULT}"
+          HTTP_CODE=$(echo "${RAW}" | grep "HTTP_CODE:" | sed 's/HTTP_CODE://')
+          BODY=$(echo "${RAW}" | sed '/HTTP_CODE:/d')
+          echo "Application binding HTTP ${HTTP_CODE}: ${BODY}"
 
       - name: Summary
         if: always()
