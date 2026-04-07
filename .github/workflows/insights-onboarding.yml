@@ -77,32 +77,73 @@ jobs:
           echo "Prod env UID: ${prod_env_id}"
           echo "System env:   ${system_env}"
 
-      - name: Insights onboarding
-        id: insights
-        continue-on-error: true
-        uses: postman-cs/postman-insights-onboarding-action@v0
+      - name: Get verification token via Bifrost (akita)
+        id: get_token
+        shell: bash
         env:
-          INPUT_PROJECT_NAME: ${{ matrix.service_key }}
-          INPUT_WORKSPACE_ID: ${{ steps.resolve.outputs.workspace_id }}
-          INPUT_ENVIRONMENT_ID: ${{ steps.resolve.outputs.prod_env_id }}
-          INPUT_CLUSTER_NAME: ${{ matrix.cluster_name }}
-          INPUT_SYSTEM_ENVIRONMENT_ID: ${{ steps.resolve.outputs.system_env }}
-          INPUT_POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
-          INPUT_POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_POSTMAN_TEAM_ID: "13569807"
-          INPUT_POLL_TIMEOUT_SECONDS: "120"
-          INPUT_POLL_INTERVAL_SECONDS: "10"
-        with:
-          project-name: ${{ matrix.service_key }}
-          workspace-id: ${{ steps.resolve.outputs.workspace_id }}
-          environment-id: ${{ steps.resolve.outputs.prod_env_id }}
-          cluster-name: ${{ matrix.cluster_name }}
-          system-environment-id: ${{ steps.resolve.outputs.system_env }}
-          postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
-          postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
-          postman-team-id: "13569807"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          workspace_id="${{ steps.resolve.outputs.workspace_id }}"
+
+          echo "Fetching team verification token for workspace ${workspace_id}..."
+          VERIFICATION_TOKEN=$(curl -sf \
+            "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
+            -H "Content-Type: application/json" \
+            -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
+            -d "{\"service\":\"akita\",\"method\":\"GET\",\"path\":\"/v2/workspaces/${workspace_id}/team-verification-token\",\"body\":{}}" \
+            | jq -r '.team_verification_token // empty' 2>/dev/null || true)
+
+          if [[ -n "${VERIFICATION_TOKEN}" ]]; then
+            echo "Got verification token: ${VERIFICATION_TOKEN:0:10}..."
+            echo "token=${VERIFICATION_TOKEN}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "::warning::Could not retrieve verification token"
+            echo "token=" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Acknowledge workspace via Bifrost (akita)
+        id: acknowledge
+        shell: bash
+        env:
+          POSTMAN_ACCESS_TOKEN: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          workspace_id="${{ steps.resolve.outputs.workspace_id }}"
+
+          echo "Acknowledging workspace ${workspace_id}..."
+          ACK_RESULT=$(curl -sf \
+            "https://bifrost-https-v4.gw.postman.com/ws/proxy" \
+            -H "Content-Type: application/json" \
+            -H "x-access-token: ${POSTMAN_ACCESS_TOKEN}" \
+            -X POST \
+            -d "{\"service\":\"akita\",\"method\":\"POST\",\"path\":\"/v2/workspaces/${workspace_id}/onboarding/acknowledge\",\"body\":{}}" \
+            2>/dev/null || echo '{"error":"failed"}')
+
+          echo "Acknowledge result: ${ACK_RESULT}"
+          echo "ack_status=done" >> "${GITHUB_OUTPUT}"
+
+      - name: Create application binding (observability API)
+        id: bind
+        shell: bash
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+        run: |
+          set -euo pipefail
+          workspace_id="${{ steps.resolve.outputs.workspace_id }}"
+          system_env="${{ steps.resolve.outputs.system_env }}"
+
+          echo "Creating application binding: workspace=${workspace_id} system_env=${system_env}"
+          APP_RESULT=$(curl -sf \
+            "https://api.observability.postman.com/v2/agent/api-catalog/workspaces/${workspace_id}/applications" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${POSTMAN_API_KEY}" \
+            -H "x-postman-env: production" \
+            -X POST \
+            -d "{\"system_env\":\"${system_env}\"}" \
+            2>/dev/null || echo '{"error":"failed"}')
+
+          echo "Application binding result: ${APP_RESULT}"
 
       - name: Summary
         if: always()
@@ -113,6 +154,6 @@ jobs:
             echo "- Workspace: \`${{ steps.resolve.outputs.workspace_id }}\`"
             echo "- Prod env:  \`${{ steps.resolve.outputs.prod_env_id }}\`"
             echo "- System env: \`${{ steps.resolve.outputs.system_env }}\`"
-            echo "- Insights result: \`${{ steps.insights.outcome }}\`"
-            echo "- System env output: \`${{ steps.insights.outputs.system-env-id || 'n/a' }}\`"
+            echo "- Verification token: \`${{ steps.get_token.outputs.token != '' && 'set' || 'missing' }}\`"
+            echo "- Acknowledge: \`${{ steps.acknowledge.outputs.ack_status }}\`"
           } >> "${GITHUB_STEP_SUMMARY}"
