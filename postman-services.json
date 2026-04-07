@@ -162,8 +162,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "53720583-f4e2884a-871d-4d0a-b4ce-b893651d23d4",
+        "stage": "53720583-d31d7409-4633-4971-b31c-075c30821b85"
       }
     },
     {
