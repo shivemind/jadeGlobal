@@ -1,0 +1,28 @@
+type: http
+name: Get onboarding progress for a newly won customer
+url: '{{baseUrl}}/customers/:customerId/onboarding'
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: customerId
+    value: string
+examples:
+  - response:
+      statusCode: 200
+      statusText: OK
+      body:
+        type: json
+        content: |-
+          {
+            "customerId": "string",
+            "provisioningStatus": "not_started",
+            "financeSetupStatus": "blocked",
+            "integrationStatus": "completed",
+            "kickoffDate": "2012-07-30"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Onboarding status

@@ -1,0 +1,4 @@
+type: folder
+name: onboarding
+items:
+  - ref: ./Get onboarding progress for a newly won customer.request.yaml

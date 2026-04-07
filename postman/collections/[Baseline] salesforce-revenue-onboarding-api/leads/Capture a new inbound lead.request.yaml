@@ -1,0 +1,37 @@
+type: http
+name: Capture a new inbound lead
+url: '{{baseUrl}}/leads'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "firstName": "string",
+      "lastName": "string",
+      "email": "it7ikBdWKd@IhXJhbY.ye",
+      "company": "string",
+      "source": "webinar",
+      "interestArea": "revenue-operations"
+    }
+examples:
+  - response:
+      statusCode: 201
+      statusText: Created
+      body:
+        type: json
+        content: |-
+          {
+            "leadId": "0487930b-f65e-7e54-3da1-aaddff373ebe",
+            "status": "working",
+            "score": 5290,
+            "owner": "string"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Lead created

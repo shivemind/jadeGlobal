@@ -1,0 +1,27 @@
+type: http
+name: Mark an opportunity as close-won and trigger onboarding
+url: '{{baseUrl}}/opportunities/:opportunityId/close-won'
+method: POST
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: opportunityId
+    value: 510d68eb-40d2-8bea-aabe-96c96478bd40
+examples:
+  - response:
+      statusCode: 202
+      statusText: Accepted
+      body:
+        type: json
+        content: |-
+          {
+            "runId": "ef63702a-3248-9fd5-f800-8d46802b71fd",
+            "workflowName": "customer-onboarding",
+            "status": "running",
+            "customerId": "string"
+          }
+      headers:
+        - key: Content-Type
+          value: application/json
+    name: Close-won workflow started
