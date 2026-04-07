@@ -19,20 +19,20 @@ examples:
             {
               "id": "string",
               "name": "string",
-              "type": "savings",
-              "balance": 6532.567817894004,
+              "type": "investment",
+              "balance": 1426.6459671433984,
               "currency": "string",
-              "status": "suspended",
-              "createdAt": "2021-07-31T02:25:56.780Z"
+              "status": "active",
+              "createdAt": "1978-05-31T02:14:30.771Z"
             },
             {
               "id": "string",
               "name": "string",
-              "type": "investment",
-              "balance": 5462.935380999279,
+              "type": "savings",
+              "balance": 480.7420476430213,
               "currency": "string",
               "status": "suspended",
-              "createdAt": "2001-06-01T05:25:54.373Z"
+              "createdAt": "1982-09-09T15:53:35.972Z"
             }
           ]
       headers:

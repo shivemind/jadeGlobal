@@ -82,11 +82,11 @@ examples:
           {
             "id": "string",
             "name": "string",
-            "type": "investment",
-            "balance": 870.5623289331954,
+            "type": "checking",
+            "balance": 4812.4831782637975,
             "currency": "string",
-            "status": "active",
-            "createdAt": "2024-04-10T07:54:15.610Z"
+            "status": "suspended",
+            "createdAt": "2011-06-28T14:25:50.702Z"
           }
       headers:
         - key: Content-Type
