@@ -11,11 +11,11 @@ body:
   type: json
   content: |-
     {
-      "suiteId": "cd680391-430e-db01-4862-0f4a4b662260",
-      "environment": "uat",
+      "suiteId": "889b39bd-fb3f-6ee6-f2f9-1b8fc8a715f7",
+      "environment": "preprod",
       "releaseVersion": "string",
       "triggeredBy": "string",
-      "runMode": "smoke"
+      "runMode": "regression"
     }
 examples:
   - response:
@@ -25,16 +25,16 @@ examples:
         type: json
         content: |-
           {
-            "runId": "62a3cb15-0cf8-cf47-334c-7fdb5cfbe204",
-            "suiteId": "b9b6b242-c756-16a0-49ad-ff4e53eb40ae",
-            "status": "running",
+            "runId": "d8eeb4d0-f779-082c-0387-7e1d39964715",
+            "suiteId": "d48e87de-94b1-8a33-1368-c77ab14e637f",
+            "status": "queued",
             "environment": "string",
             "releaseVersion": "string",
-            "startedAt": "2007-04-07T12:44:39.013Z",
-            "finishedAt": "1993-10-25T12:58:23.447Z",
-            "passedCount": 8144,
-            "failedCount": 1347,
-            "flakyCount": 1711
+            "startedAt": "1999-01-15T17:12:33.254Z",
+            "finishedAt": "2010-02-20T10:40:34.292Z",
+            "passedCount": 2959,
+            "failedCount": 3460,
+            "flakyCount": 3372
           }
       headers:
         - key: Content-Type

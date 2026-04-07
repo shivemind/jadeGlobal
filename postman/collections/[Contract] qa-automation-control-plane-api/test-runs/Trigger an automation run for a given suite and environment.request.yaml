@@ -11,7 +11,7 @@ body:
   type: json
   content: |-
     {
-      "suiteId": "731dbc96-d131-3367-6674-619098f17888",
+      "suiteId": "4d6544df-cd8a-bced-e497-3b0e9a070088",
       "environment": "dev",
       "releaseVersion": "string",
       "triggeredBy": "string",
@@ -86,16 +86,16 @@ examples:
         type: json
         content: |-
           {
-            "runId": "048838e1-619a-930d-2905-07630e7a61ad",
-            "suiteId": "ca3f7ffd-a98b-0776-6be8-9554dba4f3c6",
-            "status": "cancelled",
+            "runId": "201208e1-8c78-8890-0072-16b77a66edc2",
+            "suiteId": "74c8fe2a-4945-cca3-a148-da42f2b2cc2d",
+            "status": "passed",
             "environment": "string",
             "releaseVersion": "string",
-            "startedAt": "1995-05-06T06:25:38.511Z",
-            "finishedAt": "2006-06-03T09:20:16.186Z",
-            "passedCount": 3981,
-            "failedCount": 7418,
-            "flakyCount": 5642
+            "startedAt": "1954-05-04T17:59:24.593Z",
+            "finishedAt": "2013-11-06T09:33:38.208Z",
+            "passedCount": 908,
+            "failedCount": 2802,
+            "flakyCount": 3029
           }
       headers:
         - key: Content-Type
