@@ -3,7 +3,7 @@ type: collection
 name: '[Baseline] qa-automation-control-plane-api'
 description: |
   Sample API for triggering, tracking, and reporting enterprise QA automation runs across applications, environments, and release trains.
-id: 71947afa-bb27-421c-b6f7-f1d1f3318495
+id: 3c789737-7468-412e-a1ff-c9ab661de8ac
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/qa-control
