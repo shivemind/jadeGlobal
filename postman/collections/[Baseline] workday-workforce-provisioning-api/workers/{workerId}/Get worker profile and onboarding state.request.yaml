@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: workerId
-    value: 2831a0c1-26b5-8f21-9b30-2d795eedcb9f
+    value: 25def65d-6fa3-2657-ed92-68a98551e98e
 examples:
   - response:
       statusCode: 200
@@ -16,13 +16,13 @@ examples:
         type: json
         content: |-
           {
-            "workerId": "03d98bb9-acfc-6d05-fece-adb84df3211e",
+            "workerId": "4c8f505d-9e7e-0886-d633-64e18ab2835d",
             "employeeNumber": "string",
-            "status": "terminated",
+            "status": "leave",
             "department": "string",
             "location": "string",
-            "startDate": "1999-09-16",
-            "onboardingState": "initiated"
+            "startDate": "1971-05-25",
+            "onboardingState": "blocked"
           }
       headers:
         - key: Content-Type
