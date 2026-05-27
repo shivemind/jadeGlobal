@@ -246,11 +246,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/qa-automation-control-plane-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/qa-automation-control-plane-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "f9c0e2f6-f70b-4b5c-9772-7e6aa5ee441c",
+      "spec_id": "7187a963-d84a-416f-9f10-0bc35b0b378e",
+      "baseline_collection_id": "52400725-3c789737-7468-412e-a1ff-c9ab661de8ac",
+      "smoke_collection_id": "52400725-3e13c692-04df-4daa-8d6f-f310fdb26243",
+      "contract_collection_id": "52400725-d27d8797-6097-4128-83ee-4d8b509d8562",
       "environments": [
         "prod",
         "stage"
@@ -272,8 +272,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "52400725-3c8b7681-0cd1-490e-972e-28689dbe4bf7",
+        "stage": "52400725-ae4509f7-7594-4327-881f-81f4bd13d3ff"
       }
     }
   ]
