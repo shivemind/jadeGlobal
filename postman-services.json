@@ -211,11 +211,11 @@
       "version": "1.0.0",
       "spec_path": "openapi/workday-workforce-provisioning-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/workday-workforce-provisioning-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "7f11d8db-0414-4d64-b426-ca8b8f5321dd",
+      "spec_id": "cb62d0da-04f8-4b0b-b12a-58e592580c95",
+      "baseline_collection_id": "52400725-c1daf888-8141-4ac7-9094-5fcbe7fdffc5",
+      "smoke_collection_id": "52400725-e651c301-c49b-4150-bb10-ab5127cfe8c5",
+      "contract_collection_id": "52400725-b4e6f59e-afc3-4656-a022-8997c11b6b05",
       "environments": [
         "prod",
         "stage"
@@ -233,8 +233,8 @@
         "salesforce-revenue-onboarding-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "52400725-4030cc67-6f74-48eb-8641-223e1bed2c8b",
+        "stage": "52400725-957710d9-d653-48e7-961e-fc61b6edb9d9"
       }
     },
     {
