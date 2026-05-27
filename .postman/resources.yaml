@@ -1,10 +1,10 @@
 workspace:
-  id: f5774973-ee23-4672-b6cc-d57d9436effe
+  id: 427e7b10-a413-4cf1-ae92-6c4bdfcf90a8
 localResources:
   collections:
-    - ../postman/collections/[Baseline] accounts-api
-    - ../postman/collections/[Smoke] accounts-api
-    - ../postman/collections/[Contract] accounts-api
+    - ../postman/collections/[Baseline] payments-api
+    - ../postman/collections/[Smoke] payments-api
+    - ../postman/collections/[Contract] payments-api
   environments:
     - ../postman/environments/prod.postman_environment.json
     - ../postman/environments/stage.postman_environment.json
@@ -17,9 +17,9 @@ localResources:
     - ../openapi/workday-workforce-provisioning-api.yaml
 cloudResources:
   collections:
-    ../postman/collections/[Baseline] accounts-api: 52400725-27915fe2-7683-46da-8173-185ea95c1855
-    ../postman/collections/[Smoke] accounts-api: 52400725-7b527d58-1b95-45a5-a40a-2b619022d11a
-    ../postman/collections/[Contract] accounts-api: 52400725-4daf91ce-e431-46cb-818b-e910f0b78622
+    ../postman/collections/[Baseline] payments-api: 52400725-04fcbc90-8e13-4f7d-bc1d-93fcfa9994a7
+    ../postman/collections/[Smoke] payments-api: 52400725-21a947c1-90ec-4f0f-9aa8-ddd77f46a29d
+    ../postman/collections/[Contract] payments-api: 52400725-da622ea2-b03c-4c7e-8b09-5d5a8ca9b0b8
   environments:
-    ../postman/environments/prod.postman_environment.json: 52400725-cb43fe2d-9fe1-4d53-a331-8c1ef0b58035
-    ../postman/environments/stage.postman_environment.json: 52400725-d829b67f-992e-4a4f-b964-0623229b9025
+    ../postman/environments/prod.postman_environment.json: 52400725-1b10d1d7-8659-4bfa-a69d-da2d15000301
+    ../postman/environments/stage.postman_environment.json: 52400725-860fbd8c-4df1-4322-a9df-f98976140d15
