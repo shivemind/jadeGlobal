@@ -9,7 +9,7 @@ headers:
     value: application/json
 pathVariables:
   - key: orderId
-    value: c689819b-efbe-5c17-4fc6-3c8beedcca98
+    value: bcab3b4b-9256-a555-3ebe-ce7900a15fe6
 body:
   type: json
   content: |-
@@ -26,11 +26,11 @@ examples:
         type: json
         content: |-
           {
-            "shipmentId": "87b87234-2dc1-374f-cfab-03d512f10216",
+            "shipmentId": "ffb725fc-e300-1aec-0f58-f12dd06a232e",
             "carrier": "string",
             "shipFrom": "string",
             "trackingReference": "string",
-            "status": "delivered"
+            "status": "shipped"
           }
       headers:
         - key: Content-Type
