@@ -1,8 +1,136 @@
-# Postman API Catalog Pipeline
+# Postman API Catalog Pipeline — Jade Global
 
 This folder contains a repo-ready GitHub Actions design for onboarding and maintaining OpenAPI-backed services in Postman without creating duplicate APIs or collections.
 
 It is intentionally **Spec Hub only**. The sample does not use Postman API Builder commands or API-version publish commands.
+
+## Architecture overview
+
+End-to-end flow from source repo through CI/CD into the Postman API Catalog and Insights Service Graph, with a Docker Compose runtime emitting W3C `traceparent`-instrumented traffic captured by the Insights agent.
+
+```mermaid
+flowchart TB
+  subgraph DEV["Developer surface"]
+    DEV1["Engineer<br/>commits OpenAPI spec"]
+    REPO["GitHub repo<br/>shivemind/jadeGlobal"]
+    MANI["postman-services.json<br/>source of truth"]
+    DEV1 --> REPO
+    REPO --- MANI
+  end
+
+  subgraph CI["GitHub Actions — postman-api-catalog.yml"]
+    PLAN["plan<br/>diff specs → matrix"]
+    BS["bootstrap<br/>workspace · spec · collections"]
+    LINT["spec lint"]
+    SMOKE["smoke run<br/>--report-events"]
+    CONTRACT["contract run<br/>--report-events"]
+    RESOLVE["resolve env UIDs<br/>prod + stage"]
+    SYNC["repo-sync<br/>monitors · Bifrost link"]
+    PERSIST["persist IDs<br/>commit manifest"]
+    SYSENV["provision system_env"]
+    INS["insights-onboarding<br/>application binding"]
+    VAL["validate dependency graph"]
+    PLAN --> BS --> LINT --> SMOKE --> CONTRACT --> RESOLVE --> SYNC --> PERSIST --> SYSENV --> INS --> VAL
+  end
+
+  subgraph PM["Postman — winter-trinity-948108"]
+    WS["6 workspaces<br/>one per service"]
+    SH["Spec Hub<br/>6 OpenAPI specs"]
+    COLL["18 collections<br/>baseline · smoke · contract"]
+    ENVS["12 environments<br/>prod · stage"]
+    MON["6 weekly monitors"]
+    CAT["API Catalog"]
+    IG["Insights Service Graph"]
+    SE["system_env<br/>936898ce…695e"]
+    WS --- SH --- COLL --- ENVS --- MON
+    WS --> CAT
+    SE --> IG
+    CAT --> IG
+  end
+
+  subgraph RUN["Docker Compose runtime"]
+    direction TB
+    QA["qa-automation<br/>:5006 · hub"]
+    SF["salesforce-revenue<br/>:5005"]
+    OR["oracle-orders<br/>:5003"]
+    WD["workday-workforce<br/>:5004"]
+    PAY["payments<br/>:5002"]
+    ACC["accounts<br/>:5001"]
+    TG["traffic-generator<br/>traceparent loop"]
+    AG["postman-insights-agent<br/>apidump · repro-mode"]
+    TG -.->|HTTP + traceparent| QA
+    QA --> OR
+    QA --> SF
+    QA --> WD
+    QA --> PAY
+    QA --> ACC
+    OR --> PAY
+    OR --> ACC
+    SF --> OR
+    SF --> WD
+    WD --> SF
+    PAY --> ACC
+    AG -.->|capture witnesses| QA
+    AG -.->|capture witnesses| OR
+    AG -.->|capture witnesses| SF
+    AG -.->|capture witnesses| PAY
+  end
+
+  REPO -->|push / dispatch| PLAN
+  BS -->|create / refresh| WS
+  SYNC -->|sync artifacts| SH
+  SYNC -->|environments + monitors| ENVS
+  INS -->|bind workspace| CAT
+  AG -->|telemetry + traces| IG
+
+  classDef devFill fill:#1f1f2a,stroke:#f76935,color:#e4e4eb;
+  classDef ciFill fill:#1f1f2a,stroke:#00c2ff,color:#e4e4eb;
+  classDef pmFill fill:#1f1f2a,stroke:#a78bfa,color:#e4e4eb;
+  classDef runFill fill:#1f1f2a,stroke:#34d399,color:#e4e4eb;
+  class DEV1,REPO,MANI devFill;
+  class PLAN,BS,LINT,SMOKE,CONTRACT,RESOLVE,SYNC,PERSIST,SYSENV,INS,VAL ciFill;
+  class WS,SH,COLL,ENVS,MON,CAT,IG,SE pmFill;
+  class QA,SF,OR,WD,PAY,ACC,TG,AG runFill;
+```
+
+### Service dependency graph
+
+11 directed edges across 6 services. QA fans out to all five upstreams; Salesforce ↔ Workday is bidirectional; Oracle calls Payments + Accounts; Payments calls Accounts.
+
+```mermaid
+flowchart LR
+  QA["QA Automation<br/>Control Plane :5006"]
+  SF["Salesforce<br/>Revenue Onboarding :5005"]
+  OR["Oracle Order<br/>Orchestration :5003"]
+  WD["Workday Workforce<br/>Provisioning :5004"]
+  PAY["Payments :5002"]
+  ACC["Accounts :5001"]
+
+  QA -->|test suites| OR
+  QA -->|regression| SF
+  QA -->|provisioning validation| WD
+  QA -->|payment smoke| PAY
+  QA -->|account smoke| ACC
+  OR -->|submit payment| PAY
+  OR -->|resolve customer| ACC
+  SF -->|close-won → ERP| OR
+  SF -->|close-won → workforce| WD
+  WD -->|request SF access| SF
+  PAY -->|validate source| ACC
+```
+
+### Postman team mapping
+
+| Service | Workspace ID | Domain | Port |
+| --- | --- | --- | --- |
+| payments-api | `8960dba5-85f9-43ff-806f-adb2b76fb056` | AF · Core Banking | 5002 |
+| accounts-api | `2e09cc35-4e20-41cd-b487-c1215eeefab4` | AF · Core Banking | 5001 |
+| oracle-order-orchestration-api | `70b40ffa-e0e0-41ab-bad5-9da4acf4fb6a` | EI · ERP Integration | 5003 |
+| salesforce-revenue-onboarding-api | `06014741-03c9-4784-b463-3608ab4a3892` | RO · Revenue Ops | 5005 |
+| workday-workforce-provisioning-api | `f0461107-3973-42d5-b301-640a9637694e` | WM · Workforce Mgmt | 5004 |
+| qa-automation-control-plane-api | `080d0acc-d899-44d2-8fe1-fc1356aba02e` | QA · Automation | 5006 |
+
+Team: **winter-trinity-948108** · Team ID: **13569807** · System env: **`936898ce-cf73-4feb-827e-8a0e9d5e695e`**
 
 ## Files
 
@@ -49,10 +177,20 @@ The CI pipeline validates that every dependency target exists in the manifest an
 ### Current graph
 
 ```
-payments-api ──depends-on──▶ accounts-api
+qa-automation-control-plane-api ──▶ oracle-order-orchestration-api
+qa-automation-control-plane-api ──▶ salesforce-revenue-onboarding-api
+qa-automation-control-plane-api ──▶ workday-workforce-provisioning-api
+qa-automation-control-plane-api ──▶ payments-api
+qa-automation-control-plane-api ──▶ accounts-api
+oracle-order-orchestration-api  ──▶ payments-api
+oracle-order-orchestration-api  ──▶ accounts-api
+salesforce-revenue-onboarding-api ──▶ oracle-order-orchestration-api
+salesforce-revenue-onboarding-api ──▶ workday-workforce-provisioning-api
+workday-workforce-provisioning-api ──▶ salesforce-revenue-onboarding-api
+payments-api                    ──▶ accounts-api
 ```
 
-Payments API validates source accounts before processing. Both services share `core-banking-cluster` and a single auto-provisioned system environment.
+All 6 services share `jade-global-cluster` and a single auto-provisioned system environment (`936898ce-cf73-4feb-827e-8a0e9d5e695e`).
 
 ## Insights Service Graph integration
 
