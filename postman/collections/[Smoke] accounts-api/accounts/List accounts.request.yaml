@@ -38,19 +38,19 @@ examples:
               "id": "string",
               "name": "string",
               "type": "checking",
-              "balance": 1205.3920116695415,
+              "balance": 9437.7774394532,
               "currency": "string",
-              "status": "closed",
-              "createdAt": "2016-07-25T16:59:36.182Z"
+              "status": "suspended",
+              "createdAt": "1996-05-16T15:22:01.837Z"
             },
             {
               "id": "string",
               "name": "string",
               "type": "checking",
-              "balance": 7993.009721761584,
+              "balance": 331.9157907365855,
               "currency": "string",
-              "status": "suspended",
-              "createdAt": "1951-06-18T18:03:04.487Z"
+              "status": "closed",
+              "createdAt": "1995-10-07T07:53:24.857Z"
             }
           ]
       headers:

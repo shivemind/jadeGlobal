@@ -2,7 +2,7 @@ $schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
 type: collection
 name: '[Contract] accounts-api'
 description: Core banking accounts service
-id: fea7834c-8432-4b00-b45e-efef90a8c33d
+id: 4daf91ce-e431-46cb-818b-e910f0b78622
 variables:
   - key: baseUrl
     value: https://stage-api.example.com/accounts

@@ -40,10 +40,10 @@ examples:
             "id": "string",
             "name": "string",
             "type": "checking",
-            "balance": 5824.548270629138,
+            "balance": 6570.870677200109,
             "currency": "string",
-            "status": "active",
-            "createdAt": "1987-03-09T15:54:42.682Z"
+            "status": "suspended",
+            "createdAt": "1946-12-15T09:46:39.445Z"
           }
       headers:
         - key: Content-Type
