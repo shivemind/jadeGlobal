@@ -71,11 +71,11 @@
       "version": "1.4.2",
       "spec_path": "openapi/payments-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/payments-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "55c1ca5a-ae54-4279-a157-54f341c7746d",
+      "spec_id": "8f6dbfe5-3a6a-41a7-b60f-c96edd847820",
+      "baseline_collection_id": "52400725-74c1a4e1-b5f7-48a2-bb5c-21e1f537b09e",
+      "smoke_collection_id": "52400725-e76b3846-f812-47bf-a168-8b5e857fa0a0",
+      "contract_collection_id": "52400725-a7e8486a-3a58-440b-b678-71ac482dd654",
       "environments": [
         "prod",
         "stage"
@@ -93,8 +93,8 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "52400725-ea1517ad-fd5d-4e0c-b935-7d1c1d2753fc",
+        "stage": "52400725-210d2c8a-e927-4515-81d6-7f3d19a721a8"
       }
     },
     {
