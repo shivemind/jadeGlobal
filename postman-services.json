@@ -66,16 +66,16 @@
       "service_key": "payments-api",
       "service_name": "Payments API",
       "domain": "core-banking",
-      "domain_code": "AF",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "1.4.2",
       "spec_path": "openapi/payments-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/payments-api.yaml",
-      "workspace_id": "55c1ca5a-ae54-4279-a157-54f341c7746d",
-      "spec_id": "8f6dbfe5-3a6a-41a7-b60f-c96edd847820",
-      "baseline_collection_id": "52400725-74c1a4e1-b5f7-48a2-bb5c-21e1f537b09e",
-      "smoke_collection_id": "52400725-e76b3846-f812-47bf-a168-8b5e857fa0a0",
-      "contract_collection_id": "52400725-a7e8486a-3a58-440b-b678-71ac482dd654",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -93,24 +93,24 @@
         "accounts-api"
       ],
       "environment_uids": {
-        "prod": "52400725-ea1517ad-fd5d-4e0c-b935-7d1c1d2753fc",
-        "stage": "52400725-210d2c8a-e927-4515-81d6-7f3d19a721a8"
+        "prod": "",
+        "stage": ""
       }
     },
     {
       "service_key": "accounts-api",
       "service_name": "Accounts API",
       "domain": "core-banking",
-      "domain_code": "AF",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "2.1.0",
       "spec_path": "openapi/accounts-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/accounts-api.yaml",
-      "workspace_id": "f5774973-ee23-4672-b6cc-d57d9436effe",
-      "spec_id": "65811295-fa3e-4ce9-8e26-f699ba2fe8c4",
-      "baseline_collection_id": "52400725-27915fe2-7683-46da-8173-185ea95c1855",
-      "smoke_collection_id": "52400725-7b527d58-1b95-45a5-a40a-2b619022d11a",
-      "contract_collection_id": "52400725-4daf91ce-e431-46cb-818b-e910f0b78622",
+      "workspace_id": "",
+      "spec_id": "",
+      "baseline_collection_id": "",
+      "smoke_collection_id": "",
+      "contract_collection_id": "",
       "environments": [
         "prod",
         "stage"
@@ -126,15 +126,15 @@
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
       "dependencies": [],
       "environment_uids": {
-        "prod": "52400725-cb43fe2d-9fe1-4d53-a331-8c1ef0b58035",
-        "stage": "52400725-d829b67f-992e-4a4f-b964-0623229b9025"
+        "prod": "",
+        "stage": ""
       }
     },
     {
       "service_key": "oracle-order-orchestration-api",
       "service_name": "Oracle Order Orchestration API",
       "domain": "erp-integration",
-      "domain_code": "EI",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "1.0.0",
       "spec_path": "openapi/oracle-order-orchestration-api.yaml",
@@ -170,7 +170,7 @@
       "service_key": "salesforce-revenue-onboarding-api",
       "service_name": "Salesforce Revenue Onboarding API",
       "domain": "revenue-operations",
-      "domain_code": "RO",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "1.0.0",
       "spec_path": "openapi/salesforce-revenue-onboarding-api.yaml",
@@ -206,7 +206,7 @@
       "service_key": "workday-workforce-provisioning-api",
       "service_name": "Workday Workforce Provisioning API",
       "domain": "workforce-management",
-      "domain_code": "WM",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "1.0.0",
       "spec_path": "openapi/workday-workforce-provisioning-api.yaml",
@@ -241,7 +241,7 @@
       "service_key": "qa-automation-control-plane-api",
       "service_name": "QA Automation Control Plane API",
       "domain": "qa-automation",
-      "domain_code": "QA",
+      "domain_code": "Jade",
       "requester_email": "owner@example.com",
       "version": "1.0.0",
       "spec_path": "openapi/qa-automation-control-plane-api.yaml",
