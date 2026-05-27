@@ -106,11 +106,11 @@
       "version": "2.1.0",
       "spec_path": "openapi/accounts-api.yaml",
       "spec_url": "https://raw.githubusercontent.com/shivemind/jadeGlobal/main/openapi/accounts-api.yaml",
-      "workspace_id": "",
-      "spec_id": "",
-      "baseline_collection_id": "",
-      "smoke_collection_id": "",
-      "contract_collection_id": "",
+      "workspace_id": "5611eb47-b949-4f5b-92bd-215af0639d02",
+      "spec_id": "7fff09a7-6cfe-433f-a278-0555dca6c01d",
+      "baseline_collection_id": "52400725-b7a7fe8f-9e37-4414-93cc-4d2c6c666b22",
+      "smoke_collection_id": "52400725-53b17ef1-34ee-474b-a7f9-789cacf00d6b",
+      "contract_collection_id": "52400725-93540326-77d9-43b6-b905-a89d58fdf9e4",
       "environments": [
         "prod",
         "stage"
@@ -126,8 +126,8 @@
       "k8s_dns_name": "accounts-api.jade-global.svc.cluster.local",
       "dependencies": [],
       "environment_uids": {
-        "prod": "",
-        "stage": ""
+        "prod": "52400725-86402952-ecbe-4d85-be51-5fe56edc3126",
+        "stage": "52400725-068a80d3-8dab-4ce7-b176-64fd8298f7b2"
       }
     },
     {
