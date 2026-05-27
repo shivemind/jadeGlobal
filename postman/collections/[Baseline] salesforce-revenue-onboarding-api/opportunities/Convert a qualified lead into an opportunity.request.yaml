@@ -11,12 +11,12 @@ body:
   type: json
   content: |-
     {
-      "leadId": "421431d6-38b1-426b-3482-d350738e0e4c",
+      "leadId": "35de8ec4-cd3b-bf48-dbb3-936d333964c6",
       "accountName": "string",
-      "amount": 7097.675503429359,
-      "expectedCloseDate": "1966-06-12",
+      "amount": 537.6394095701075,
+      "expectedCloseDate": "1992-05-19",
       "productFamily": "string",
-      "billingModel": "project"
+      "billingModel": "hybrid"
     }
 examples:
   - response:
@@ -26,11 +26,11 @@ examples:
         type: json
         content: |-
           {
-            "opportunityId": "930276bd-ea3c-9d99-13da-12c38dbc5680",
+            "opportunityId": "2b30b759-fd1e-96c7-c216-8f1c667b7e07",
             "accountName": "string",
-            "stage": "legal_review",
-            "amount": 354.52143411881076,
-            "expectedCloseDate": "2009-11-10"
+            "stage": "close_lost",
+            "amount": 2885.3345617292534,
+            "expectedCloseDate": "1988-02-06"
           }
       headers:
         - key: Content-Type

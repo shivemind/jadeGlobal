@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: opportunityId
-    value: ec5b9fca-0aa3-361d-941d-a6a08a865d9f
+    value: 57eb89f4-70db-62da-933f-74e5e5fa5eb6
 examples:
   - response:
       statusCode: 202
@@ -16,9 +16,9 @@ examples:
         type: json
         content: |-
           {
-            "runId": "efb4eadd-c962-ed7e-5297-51e9eafa9c3a",
+            "runId": "a2134c96-a8c9-be51-e78b-765a59647e2c",
             "workflowName": "customer-onboarding",
-            "status": "queued",
+            "status": "completed",
             "customerId": "string"
           }
       headers:

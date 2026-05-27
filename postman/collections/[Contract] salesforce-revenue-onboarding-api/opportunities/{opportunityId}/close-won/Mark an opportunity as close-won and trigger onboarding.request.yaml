@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: opportunityId
-    value: f02d81ef-1386-a5b5-b347-868be6bd601f
+    value: a24ce2cf-f994-6db5-8232-039831500aa2
 scripts:
   - type: afterResponse
     code:
@@ -77,9 +77,9 @@ examples:
         type: json
         content: |-
           {
-            "runId": "154ef88a-5555-cc9b-ed76-691bacbf138a",
+            "runId": "d4993e3a-3dde-b392-ca1f-a3553f782c2c",
             "workflowName": "customer-onboarding",
-            "status": "completed",
+            "status": "queued",
             "customerId": "string"
           }
       headers:

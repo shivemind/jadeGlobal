@@ -36,9 +36,9 @@ examples:
           {
             "customerId": "string",
             "provisioningStatus": "not_started",
-            "financeSetupStatus": "blocked",
+            "financeSetupStatus": "completed",
             "integrationStatus": "in_progress",
-            "kickoffDate": "2003-11-02"
+            "kickoffDate": "1948-06-28"
           }
       headers:
         - key: Content-Type
